@@ -13,10 +13,6 @@ const Container = styled.View`
 
 const ScrollView = styled.ScrollView``;
 
-const HorizontalScrollView = styled.ScrollView`
-  padding: 16px;
-`;
-
 const Badge = styled.View`
   background-color: ${(p) => p.theme.colors.foreground};
   border-radius: 50%;
@@ -48,11 +44,6 @@ export const ListProblemsScreen = () => {
   };
   return (
     <Container>
-      <HorizontalScrollView horizontal>
-        <Badge>
-          <BadgeTitle>Array</BadgeTitle>
-        </Badge>
-      </HorizontalScrollView>
       <ScrollView>
         {problems.map(({ questionId, ...rest }) => (
           <ProblemItem

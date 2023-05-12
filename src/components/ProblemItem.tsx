@@ -39,7 +39,7 @@ const Title = styled.Text`
 const Subtitle = styled.Text`
   font-size: 14px;
   color: ${(p) => p.theme.colors.textDim};
-  margin-top: 8px;
+  margin-top: 12px;
 `;
 
 const Badge = styled.View`
@@ -87,7 +87,7 @@ export const ProblemItem: FC<ProblemItemProps> = ({
       <Row>
         <Subtitle>{`Acceptance: ${acRate.toFixed(
           1
-        )}% | Likes: ${likes} | Dislikes: ${dislikes}`}</Subtitle>
+        )}% • Likes: ${likes} • Dislikes: ${dislikes}`}</Subtitle>
       </Row>
     </Container>
   );
