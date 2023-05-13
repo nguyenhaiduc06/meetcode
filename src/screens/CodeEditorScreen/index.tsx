@@ -144,10 +144,10 @@ export const CodeEditorScreen = () => {
         >
           <ToolbarContainer>
             <ToolbarButton>
-              <Icon name="arrow-right" size={16} color="white" />
+              <Icon name="indent-increase" size={16} color="white" />
             </ToolbarButton>
             <ToolbarButton>
-              <Icon name="arrow-left" size={16} color="white" />
+              <Icon name="indent-decrease" size={16} color="white" />
             </ToolbarButton>
             {["(", "[", "{", ":", ";", "'", '"'].map((char) => (
               <ToolbarButton
@@ -162,7 +162,7 @@ export const CodeEditorScreen = () => {
           </ToolbarContainer>
         </ScrollView>
         <ToolbarButton onPress={dismiss}>
-          <Icon name="chevron-down" size={16} color="white" />
+          <Icon name="keyboard-box-line" size={16} color="white" />
         </ToolbarButton>
       </Animated.View>
     </View>

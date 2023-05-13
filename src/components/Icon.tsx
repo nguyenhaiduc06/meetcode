@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Feather } from "@expo/vector-icons";
+import RemixIcon from "react-native-remix-icon";
 
 type IconProps = {
   name: any;
@@ -8,5 +8,5 @@ type IconProps = {
 };
 
 export const Icon: FC<IconProps> = ({ name, size, color }) => {
-  return <Feather name={name} size={size} color={color} />;
+  return <RemixIcon name={name} size={size} color={color} />;
 };

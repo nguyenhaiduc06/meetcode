@@ -49,18 +49,18 @@ export const Header = () => {
   return (
     <Container>
       <IconButton>
-        <Icon name="x" size={12} color={theme.colors.text} />
+        <Icon name="close-line" size={14} color={theme.colors.text} />
       </IconButton>
       <LanguageButton>
         <Text>Python</Text>
-        <Icon name="chevron-down" size={16} color={theme.colors.text} />
+        <Icon name="arrow-down-s-fill" size={16} color={theme.colors.text} />
       </LanguageButton>
 
       <Space />
 
       {/* add padding left to make the play button center "visually" */}
-      <IconButton style={{ paddingLeft: 3 }}>
-        <Icon name="play" size={12} color={theme.colors.text} />
+      <IconButton>
+        <Icon name="play-fill" size={12} color={theme.colors.text} />
       </IconButton>
       <SubmitButton>
         <Text>Submit</Text>

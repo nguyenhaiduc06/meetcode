@@ -81,11 +81,11 @@ export const ProblemItem: FC<ProblemItemProps> = ({
           <Subtitle>{acRate.toFixed(1)}%</Subtitle>
         </Row>
         <Row gap={spacing.xxs}>
-          <Icon name="thumbs-up" size={14} color={theme.colors.textDim} />
+          <Icon name="thumb-up-line" size={14} color={theme.colors.textDim} />
           <Subtitle>{Helper.nFormatter(likes)}</Subtitle>
         </Row>
         <Row gap={spacing.xxs}>
-          <Icon name="thumbs-down" size={14} color={theme.colors.textDim} />
+          <Icon name="thumb-down-line" size={14} color={theme.colors.textDim} />
           <Subtitle>{Helper.nFormatter(dislikes)}</Subtitle>
         </Row>
       </Row>
