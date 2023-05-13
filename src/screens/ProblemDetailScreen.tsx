@@ -1,12 +1,13 @@
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Button, Keyboard, ScrollView, Text, View } from "react-native";
+import { Button, ScrollView, View } from "react-native";
 import { styled } from "styled-components/native";
 import { MainStackNavigatorProp, MainStackParamList } from "../navigators";
 import { leetCode } from "../core/LeetCode";
 import RenderHTML from "react-native-render-html";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { darkTheme } from "../theme";
+import { Space } from "../components";
 
 const Container = styled.View`
   flex: 1;
@@ -56,7 +57,7 @@ export const ProblemDetailScreen = () => {
               tagsStyles={tagsStyles}
             />
           )}
-          <View style={{ height: insets.bottom }} />
+          <Space height={insets.bottom} />
         </ScrollViewContainer>
       </ScrollView>
     </Container>

@@ -40,7 +40,7 @@ export const lightTheme: Theme = {
     warning: palette.yellow500,
     info: palette.blue500,
 
-    card: palette.gray100,
+    card: palette.gray200,
     primary: palette.blue500,
     border: palette.gray200,
     notification: palette.blue500,
