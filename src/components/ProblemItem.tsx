@@ -76,15 +76,15 @@ export const ProblemItem: FC<ProblemItemProps> = ({
         ))}
       </Row>
       <Row style={{ marginTop: 12 }} gap={spacing.l}>
-        <Row gap={spacing.xxs}>
+        <Row gap={spacing.xs}>
           <Subtitle dim>Acceptance: </Subtitle>
           <Subtitle>{acRate.toFixed(1)}%</Subtitle>
         </Row>
-        <Row gap={spacing.xxs}>
+        <Row gap={spacing.xs}>
           <Icon name="thumb-up-line" size={14} color={theme.colors.textDim} />
           <Subtitle>{Helper.nFormatter(likes)}</Subtitle>
         </Row>
-        <Row gap={spacing.xxs}>
+        <Row gap={spacing.xs}>
           <Icon name="thumb-down-line" size={14} color={theme.colors.textDim} />
           <Subtitle>{Helper.nFormatter(dislikes)}</Subtitle>
         </Row>
