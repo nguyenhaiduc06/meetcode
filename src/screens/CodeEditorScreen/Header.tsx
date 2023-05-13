@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "styled-components/native";
-import { Icon } from "../../components";
-import { spacing } from "../../theme";
+import { Button, Text, Icon, Space } from "../../components";
+import { palette, spacing } from "../../theme";
 import { useTheme } from "../../hooks";
 import { useNavigation } from "@react-navigation/native";
 import { MainStackNavigatorProp } from "../../navigators";
@@ -13,64 +13,38 @@ const Container = styled.View`
   gap: 16px;
 `;
 
-const IconButton = styled.TouchableOpacity`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  align-items: center;
-  justify-content: center;
-  background-color: ${(p) => p.theme.colors.foreground};
-`;
-
 const LanguageButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   gap: ${spacing.xs}px;
 `;
 
-const SubmitButton = styled.TouchableOpacity`
-  height: 32px;
-  border-radius: 50%;
-  padding: 0 16px;
-  align-items: center;
-  justify-content: center;
-  background-color: ${(p) => p.theme.colors.primary};
-`;
-
-const Space = styled.View`
-  flex: 1;
-`;
-
-const Text = styled.Text`
-  font-size: 15px;
-  color: ${(p) => p.theme.colors.text};
-`;
-
 export const Header = () => {
   const theme = useTheme();
   const navigation = useNavigation<MainStackNavigatorProp>();
+
   const goBack = () => {
     navigation.goBack();
   };
+
   return (
     <Container>
-      <IconButton onPress={goBack}>
-        <Icon name="close-line" size={14} color={theme.colors.text} />
-      </IconButton>
-      <LanguageButton>
+      <Button iconName="close-line" size="sm" onPress={goBack} />
+
+      <Button size="sm" backgroundColor="transparent">
         <Text>Python</Text>
         <Icon name="arrow-down-s-fill" size={16} color={theme.colors.text} />
-      </LanguageButton>
+      </Button>
 
       <Space />
 
-      {/* add padding left to make the play button center "visually" */}
-      <IconButton>
-        <Icon name="play-fill" size={12} color={theme.colors.text} />
-      </IconButton>
-      <SubmitButton>
-        <Text>Submit</Text>
-      </SubmitButton>
+      <Button iconName="play-fill" size="sm" />
+      <Button
+        label="Submit"
+        size="sm"
+        backgroundColor={theme.colors.primary}
+        labelColor={palette.white}
+      />
     </Container>
   );
 };

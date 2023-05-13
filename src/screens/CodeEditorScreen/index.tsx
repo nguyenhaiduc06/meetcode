@@ -1,17 +1,9 @@
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Keyboard,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Keyboard, ScrollView, View } from "react-native";
 import { styled } from "styled-components/native";
 import { MainStackNavigatorProp, MainStackParamList } from "../../navigators";
 import { leetCode } from "../../core/LeetCode";
-import RenderHTML from "react-native-render-html";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { darkTheme } from "../../theme";
 import CodeEditor, {
@@ -21,24 +13,9 @@ import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import { Icon } from "../../components";
+import { Icon, Button } from "../../components";
 import { useTheme } from "../../hooks";
 import { Header } from "./Header";
-
-const Container = styled.View`
-  flex: 1;
-`;
-
-const ScrollViewContainer = styled.View`
-  flex: 1;
-  padding: 16px;
-`;
-
-const Title = styled.Text`
-  font-size: 18px;
-  font-weight: 600;
-  color: ${(p) => p.theme.colors.text};
-`;
 
 const ToolbarContainer = styled.View`
   height: 40px;
@@ -79,7 +56,7 @@ export const CodeEditorScreen = () => {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => {
-        return <Button title="Submit" />;
+        return <Button label="Submit" />;
       },
     });
   }, [navigation]);
@@ -144,10 +121,18 @@ export const CodeEditorScreen = () => {
         >
           <ToolbarContainer>
             <ToolbarButton>
-              <Icon name="indent-increase" size={16} color="white" />
+              <Icon
+                name="indent-increase"
+                size={16}
+                color={theme.colors.text}
+              />
             </ToolbarButton>
             <ToolbarButton>
-              <Icon name="indent-decrease" size={16} color="white" />
+              <Icon
+                name="indent-decrease"
+                size={16}
+                color={theme.colors.text}
+              />
             </ToolbarButton>
             {["(", "[", "{", ":", ";", "'", '"'].map((char) => (
               <ToolbarButton
@@ -162,45 +147,9 @@ export const CodeEditorScreen = () => {
           </ToolbarContainer>
         </ScrollView>
         <ToolbarButton onPress={dismiss}>
-          <Icon name="keyboard-box-line" size={16} color="white" />
+          <Icon name="keyboard-box-line" size={16} color={theme.colors.text} />
         </ToolbarButton>
       </Animated.View>
     </View>
   );
-
-  return (
-    <Container>
-      <ScrollView>
-        <ScrollViewContainer>
-          <Button title="Submit" onPress={submit} />
-          <Title>{problem?.title}</Title>
-          {problem && (
-            <RenderHTML
-              contentWidth={200}
-              source={{
-                html: problem.content,
-              }}
-              tagsStyles={tagsStyles}
-            />
-          )}
-          <View style={{ height: insets.bottom }} />
-        </ScrollViewContainer>
-      </ScrollView>
-    </Container>
-  );
-};
-
-const tagsStyles = {
-  p: {
-    fontSize: 16,
-    color: darkTheme.colors.textDim,
-  },
-  pre: {
-    fontSize: 16,
-    color: darkTheme.colors.textDim,
-  },
-  ul: {
-    fontSize: 16,
-    color: darkTheme.colors.textDim,
-  },
 };
