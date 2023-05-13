@@ -5,7 +5,7 @@ import { ThemeProvider } from "styled-components/native";
 import { darkTheme, lightTheme } from "./src/theme";
 
 export default function App() {
-  const theme = darkTheme;
+  const theme = lightTheme;
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer theme={theme}>

@@ -1,12 +1,9 @@
 import { FC } from "react";
 import { TouchableOpacityProps } from "react-native/types";
-import { styled } from "styled-components/native";
-
-const colorNameByDifficulty = {
-  Easy: "success",
-  Medium: "warning",
-  Hard: "danger",
-};
+import { styled, useTheme } from "styled-components/native";
+import { Chip } from "./Chip";
+import { Icon } from "./Icon";
+import Helper from "../utils/Helper";
 
 type ProblemItemProps = TouchableOpacityProps & {
   title: string;
@@ -24,42 +21,24 @@ const Container = styled.TouchableOpacity`
   align-items: start;
 `;
 
-const Row = styled.View`
+const Row = styled.View<{ gap: number }>`
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: ${(p) => p.gap}px;
 `;
 
 const Title = styled.Text`
-  font-size: 16px;
+  font-size: 17px;
   color: ${(p) => p.theme.colors.text};
   font-weight: 600;
+  margin-bottom: 4px;
 `;
 
-const Subtitle = styled.Text`
-  font-size: 14px;
-  color: ${(p) => p.theme.colors.textDim};
-  margin-top: 12px;
-`;
-
-const Badge = styled.View`
-  background-color: ${(p) => p.theme.colors.foreground};
-  border-radius: 50%;
-  padding: 2px 6px;
-  align-items: center;
-  justify-content: center;
-  margin-right: 4px;
-  margin-top: 4px;
-`;
-
-const BadgeTitle = styled.Text<{ difficulty?: string }>`
-  font-size: 11px;
-  color: ${({ difficulty, theme }) => {
-    const colorName = difficulty
-      ? colorNameByDifficulty[difficulty]
-      : "textDim";
-    return theme.colors[colorName];
-  }};
+const Subtitle = styled.Text<{ dim?: boolean }>`
+  font-size: 15px;
+  color: ${({ dim, theme }) =>
+    dim ? theme.colors.textDim : theme.colors.text};
 `;
 
 export const ProblemItem: FC<ProblemItemProps> = ({
@@ -71,23 +50,42 @@ export const ProblemItem: FC<ProblemItemProps> = ({
   acRate,
   topicTags,
 }) => {
+  const theme = useTheme();
+
+  const difficultyColorName = Helper.getColorNameByDifficulty(difficulty);
+  const difficultyLabelColor = theme.palette[difficultyColorName + "700"];
+  const difficultyBackgroundColor = theme.palette[difficultyColorName + "100"];
+
   return (
     <Container onPress={onPress}>
       <Title>{title}</Title>
-      <Row>
-        <Badge>
-          <BadgeTitle difficulty={difficulty}>{difficulty}</BadgeTitle>
-        </Badge>
+      <Row gap={8}>
+        <Chip
+          label={difficulty}
+          labelColor={difficultyLabelColor}
+          backgroundColor={difficultyBackgroundColor}
+        />
         {topicTags.map((tag) => (
-          <Badge key={tag.name}>
-            <BadgeTitle>{tag.name}</BadgeTitle>
-          </Badge>
+          <Chip
+            key={tag.name}
+            label={tag.name}
+            labelColor={theme.colors.textDim}
+          />
         ))}
       </Row>
-      <Row>
-        <Subtitle>{`Acceptance: ${acRate.toFixed(
-          1
-        )}% • Likes: ${likes} • Dislikes: ${dislikes}`}</Subtitle>
+      <Row style={{ marginTop: 12 }} gap={12}>
+        <Row gap={2}>
+          <Subtitle dim>Acceptance: </Subtitle>
+          <Subtitle>{acRate.toFixed(1)}%</Subtitle>
+        </Row>
+        <Row gap={2}>
+          <Icon name="thumbs-up" size={14} color={theme.colors.textDim} />
+          <Subtitle>{Helper.nFormatter(likes)}</Subtitle>
+        </Row>
+        <Row gap={2}>
+          <Icon name="thumbs-down" size={14} color={theme.colors.textDim} />
+          <Subtitle>{Helper.nFormatter(dislikes)}</Subtitle>
+        </Row>
       </Row>
     </Container>
   );

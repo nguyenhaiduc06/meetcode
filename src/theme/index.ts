@@ -5,10 +5,10 @@ export const lightTheme = {
   dark: false,
   palette,
   colors: {
-    background: palette.white,
-    foreground: palette.gray100,
+    background: palette.gray100,
+    foreground: palette.gray200,
     text: palette.gray900,
-    textDim: palette.gray500,
+    textDim: palette.gray600,
     success: palette.green500,
     failure: palette.red500,
     danger: palette.red500,
