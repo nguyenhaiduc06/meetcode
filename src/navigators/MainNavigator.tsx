@@ -3,12 +3,14 @@ import {
   createNativeStackNavigator,
 } from "@react-navigation/native-stack";
 import { ListProblemsScreen, ProblemDetailScreen } from "../screens";
+import { CodeEditorScreen } from "../screens/CodeEditorScreen";
 
 export type MainStackParamList = {
   ListProblems: undefined;
   ProblemDetail: {
     titleSlug: string;
   };
+  CodeEditor: undefined;
 };
 
 export type MainStackNavigatorProp =
@@ -31,6 +33,14 @@ export const MainNavigator = () => {
         component={ProblemDetailScreen}
         options={{
           headerTitle: "Detail",
+        }}
+      />
+      <Main.Screen
+        name="CodeEditor"
+        component={CodeEditorScreen}
+        options={{
+          headerShown: false,
+          presentation: "modal",
         }}
       />
     </Main.Navigator>

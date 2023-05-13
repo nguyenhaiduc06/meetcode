@@ -2,9 +2,11 @@ import axios from "axios";
 import { getQuestionDetail, problemsetQuestionList } from "./queries";
 import service from "./service";
 import { session, csrfToken, endpoint } from "./config";
+import { problem, problems } from "../mock";
 
 class LeetCode {
   async getProblems() {
+    return problems;
     const res = await service.GraphQLQuery({
       query: problemsetQuestionList,
       variables: {
@@ -18,6 +20,7 @@ class LeetCode {
   }
 
   async getProblemDetail(slug) {
+    return problem;
     const res = await service.GraphQLQuery({
       query: getQuestionDetail,
       variables: {

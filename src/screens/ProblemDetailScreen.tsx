@@ -1,15 +1,12 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Button, ScrollView, View } from "react-native";
+import { Button, Keyboard, ScrollView, Text, View } from "react-native";
 import { styled } from "styled-components/native";
-import { MainStackParamList } from "../navigators";
+import { MainStackNavigatorProp, MainStackParamList } from "../navigators";
 import { leetCode } from "../core/LeetCode";
 import RenderHTML from "react-native-render-html";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { darkTheme } from "../theme";
-import CodeEditor, {
-  CodeEditorSyntaxStyles,
-} from "@rivascva/react-native-code-editor";
 
 const Container = styled.View`
   flex: 1;
@@ -28,11 +25,7 @@ const Title = styled.Text`
 
 export const ProblemDetailScreen = () => {
   const [problem, setProblem] = useState(null);
-  const initialCode = problem
-    ? problem.codeSnippets.find((snippet) => snippet.langSlug == "python").code
-    : null;
-
-  const [typedCode, setTypedCode] = useState("");
+  const navigation = useNavigation<MainStackNavigatorProp>();
   const route = useRoute<RouteProp<MainStackParamList>>();
   const insets = useSafeAreaInsets();
   const { titleSlug } = route.params;
@@ -40,14 +33,8 @@ export const ProblemDetailScreen = () => {
     leetCode.getProblemDetail(titleSlug).then(setProblem);
   }, []);
 
-  const submit = () => {
-    const { questionId } = problem;
-    leetCode.submit({
-      slug: titleSlug,
-      question_id: questionId,
-      lang: "python3",
-      typed_code: typedCode,
-    });
+  const openCodeEditor = () => {
+    navigation.navigate("CodeEditor");
   };
 
   if (!problem) {
@@ -55,28 +42,10 @@ export const ProblemDetailScreen = () => {
   }
 
   return (
-    <View style={{ flex: 1 }}>
-      <Button title="Submit" onPress={submit} />
-      <CodeEditor
-        initialValue={initialCode}
-        style={{
-          fontSize: 16,
-          inputLineHeight: 24,
-          highlighterLineHeight: 24,
-        }}
-        language="python"
-        syntaxStyle={CodeEditorSyntaxStyles.nord}
-        showLineNumbers
-        onChange={setTypedCode}
-      />
-    </View>
-  );
-
-  return (
     <Container>
+      <Button title="Code" onPress={openCodeEditor} />
       <ScrollView>
         <ScrollViewContainer>
-          <Button title="Submit" onPress={submit} />
           <Title>{problem?.title}</Title>
           {problem && (
             <RenderHTML
