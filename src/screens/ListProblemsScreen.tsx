@@ -11,21 +11,10 @@ const Container = styled.View`
   justify-content: center;
 `;
 
-const ScrollView = styled.ScrollView``;
-
-const Badge = styled.View`
-  background-color: ${(p) => p.theme.colors.foreground};
-  border-radius: 50%;
-  padding: 2px 6px;
-  align-items: center;
-  justify-content: center;
-  margin-right: 4px;
-  margin-top: 4px;
-`;
-
-const BadgeTitle = styled.Text<{ difficulty?: string }>`
-  font-size: 11px;
-  color: ${(p) => p.theme.colors.textDim};
+const ScrollView = styled.ScrollView`
+  flex: 1;
+  border-width: 1px;
+  border-color: red;
 `;
 
 export const ListProblemsScreen = () => {
@@ -37,7 +26,6 @@ export const ListProblemsScreen = () => {
   }, []);
 
   const viewProblemDetail = (titleSlug) => {
-    console.log("🚀 ~ titleSlug:", titleSlug);
     navigation.navigate("ProblemDetail", {
       titleSlug,
     });
