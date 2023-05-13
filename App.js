@@ -4,11 +4,14 @@ import { MainNavigator } from "./src/navigators";
 import { ThemeProvider } from "styled-components/native";
 import { darkTheme, lightTheme } from "./src/theme";
 import { useEffect, useState } from "react";
-import { Appearance } from "react-native";
+import { Appearance, useColorScheme } from "react-native";
 import { Theme } from "./src/theme";
 
 export default function App() {
-  const [theme, setTheme] = useState(lightTheme);
+  const colorScheme = useColorScheme();
+  const [theme, setTheme] = useState(
+    colorScheme == "light" ? lightTheme : darkTheme
+  );
 
   useEffect(() => {
     const removeListener = Appearance.addChangeListener((preferences) => {
