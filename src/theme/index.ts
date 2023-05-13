@@ -1,9 +1,34 @@
-import { palette } from "./colors";
-import { spacing } from "./spacing";
+import { StatusBarStyle } from "expo-status-bar/src/StatusBar.types";
+import { PaletteColor, palette } from "./colors";
 
-export const lightTheme = {
+type ThemeColors = {
+  background: PaletteColor;
+  foreground: PaletteColor;
+  text: PaletteColor;
+  textDim: PaletteColor;
+  success: PaletteColor;
+  failure: PaletteColor;
+  danger: PaletteColor;
+  warning: PaletteColor;
+  info: PaletteColor;
+
+  // these colors are from navigation theme
+  // setting these colors for some components in navigation
+  card: PaletteColor;
+  primary: PaletteColor;
+  border: PaletteColor;
+  notification: PaletteColor;
+};
+
+export type Theme = {
+  dark: boolean;
+  statusBarStyle: StatusBarStyle;
+  colors: ThemeColors;
+};
+
+export const lightTheme: Theme = {
   dark: false,
-  palette,
+  statusBarStyle: "dark",
   colors: {
     background: palette.gray100,
     foreground: palette.gray200,
@@ -14,14 +39,19 @@ export const lightTheme = {
     danger: palette.red500,
     warning: palette.yellow500,
     info: palette.blue500,
+
+    card: palette.gray100,
+    primary: palette.blue500,
+    border: palette.gray200,
+    notification: palette.blue500,
   },
-  spacing,
 };
 
-export const darkTheme = {
-  ...lightTheme,
+export const darkTheme: Theme = {
   dark: true,
+  statusBarStyle: "light",
   colors: {
+    ...lightTheme.colors,
     background: palette.gray900,
     foreground: palette.gray800,
     text: palette.white,
@@ -29,12 +59,16 @@ export const darkTheme = {
     success: palette.green500,
     failure: palette.red500,
     danger: palette.red500,
-    info: palette.blue500,
     warning: palette.yellow500,
-    card: palette.gray900,
+    info: palette.blue500,
 
-    primary: "rgb(10, 132, 255)",
-    border: "rgb(39, 39, 41)",
-    notification: "rgb(255, 69, 58)",
+    card: palette.gray900,
+    primary: palette.blue500,
+    border: palette.gray800,
+    notification: palette.blue500,
   },
 };
+
+export * from "./colors";
+
+export * from "./spacing";

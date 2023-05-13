@@ -92,3 +92,9 @@ export const palette = {
   pink800: "#97266d",
   pink900: "#702459",
 };
+
+export type Palette = typeof palette;
+
+export type PaletteColorName = keyof typeof palette;
+
+export type PaletteColor = (typeof palette)[PaletteColorName];

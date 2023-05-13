@@ -1,9 +1,11 @@
 import { FC } from "react";
 import { TouchableOpacityProps } from "react-native/types";
-import { styled, useTheme } from "styled-components/native";
+import { styled } from "styled-components/native";
+import { useTheme } from "../hooks";
 import { Chip } from "./Chip";
 import { Icon } from "./Icon";
 import Helper from "../utils/Helper";
+import { palette, spacing } from "../theme";
 
 type ProblemItemProps = TouchableOpacityProps & {
   title: string;
@@ -53,13 +55,13 @@ export const ProblemItem: FC<ProblemItemProps> = ({
   const theme = useTheme();
 
   const difficultyColorName = Helper.getColorNameByDifficulty(difficulty);
-  const difficultyLabelColor = theme.palette[difficultyColorName + "700"];
-  const difficultyBackgroundColor = theme.palette[difficultyColorName + "100"];
+  const difficultyLabelColor = palette[difficultyColorName + "700"];
+  const difficultyBackgroundColor = palette[difficultyColorName + "100"];
 
   return (
     <Container onPress={onPress}>
       <Title>{title}</Title>
-      <Row gap={8}>
+      <Row gap={spacing.s}>
         <Chip
           label={difficulty}
           labelColor={difficultyLabelColor}

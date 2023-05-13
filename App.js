@@ -11,6 +11,7 @@ export default function App() {
       <NavigationContainer theme={theme}>
         <MainNavigator />
       </NavigationContainer>
+      <StatusBar style={theme.statusBarStyle} />
     </ThemeProvider>
   );
 }
