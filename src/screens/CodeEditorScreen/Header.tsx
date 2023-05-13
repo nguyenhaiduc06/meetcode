@@ -3,6 +3,8 @@ import { styled } from "styled-components/native";
 import { Icon } from "../../components";
 import { spacing } from "../../theme";
 import { useTheme } from "../../hooks";
+import { useNavigation } from "@react-navigation/native";
+import { MainStackNavigatorProp } from "../../navigators";
 
 const Container = styled.View`
   padding: 12px;
@@ -46,9 +48,13 @@ const Text = styled.Text`
 
 export const Header = () => {
   const theme = useTheme();
+  const navigation = useNavigation<MainStackNavigatorProp>();
+  const goBack = () => {
+    navigation.goBack();
+  };
   return (
     <Container>
-      <IconButton>
+      <IconButton onPress={goBack}>
         <Icon name="close-line" size={14} color={theme.colors.text} />
       </IconButton>
       <LanguageButton>
