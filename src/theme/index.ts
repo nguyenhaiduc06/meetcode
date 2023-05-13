@@ -42,7 +42,7 @@ export const lightTheme: Theme = {
 
     card: palette.gray200,
     primary: palette.blue500,
-    border: palette.gray200,
+    border: palette.black20,
     notification: palette.blue500,
   },
 };
@@ -54,7 +54,7 @@ export const darkTheme: Theme = {
     ...lightTheme.colors,
     background: palette.gray900,
     foreground: palette.gray800,
-    text: palette.white,
+    text: palette.white100,
     textDim: palette.gray500,
     success: palette.green500,
     failure: palette.red500,
@@ -64,7 +64,7 @@ export const darkTheme: Theme = {
 
     card: palette.gray900,
     primary: palette.blue500,
-    border: palette.gray800,
+    border: palette.white20,
     notification: palette.blue500,
   },
 };
