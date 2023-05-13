@@ -19,6 +19,7 @@ const Container = styled.View<{ backgroundColor?: string }>`
 
 const Label = styled.Text<{ color?: string }>`
   font-size: 13px;
+  font-weight: 500;
   color: ${({ color, theme }) => color ?? theme.colors.textDim};
 `;
 
