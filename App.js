@@ -19,9 +19,6 @@ export default function App() {
       const theme = colorScheme == "light" ? lightTheme : darkTheme;
       setTheme(theme);
     });
-    return () => {
-      removeListener();
-    };
   }, []);
 
   return (

@@ -16,6 +16,7 @@ import Animated, {
 import { Icon, Button } from "../../components";
 import { useTheme } from "../../hooks";
 import { Header } from "./Header";
+import { CodeSnippet, Question } from "../../core/types";
 
 const ToolbarContainer = styled.View`
   height: 40px;
@@ -38,29 +39,25 @@ const ToolbarText = styled.Text`
 `;
 
 export const CodeEditorScreen = () => {
-  const [problem, setProblem] = useState(null);
-  const theme = useTheme();
-  const initialCode = problem
-    ? problem.codeSnippets.find((snippet) => snippet.langSlug == "python").code
-    : null;
-
+  const [codeSnippets, setCodeSnippets] = useState<CodeSnippet[]>([]);
   const [typedCode, setTypedCode] = useState("");
-  const navigation = useNavigation<MainStackNavigatorProp>();
-  const route = useRoute<RouteProp<MainStackParamList>>();
+  const theme = useTheme();
+  const keyboard = useAnimatedKeyboard();
   const insets = useSafeAreaInsets();
+  const route = useRoute<RouteProp<MainStackParamList>>();
   const { titleSlug } = route.params ?? {};
+
+  const codeSnippet = codeSnippets.find(
+    (snippet) => snippet.langSlug == "python"
+  );
+  const initialCode = codeSnippet?.code ?? "";
+
   useEffect(() => {
-    leetCode.getProblemDetail(titleSlug).then(setProblem);
+    leetCode
+      .getQuestionCodeEditorDetail(titleSlug)
+      .then((detail) => setCodeSnippets(detail.codeSnippets));
   }, []);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => {
-        return <Button label="Submit" />;
-      },
-    });
-  }, [navigation]);
-  const keyboard = useAnimatedKeyboard();
   const translatedStyle = useAnimatedStyle(() => {
     return {
       width: "100%",
@@ -78,7 +75,7 @@ export const CodeEditorScreen = () => {
   });
 
   const submit = () => {
-    // const { questionId } = problem;
+    // const { questionId } = question;
     // leetCode.submit({
     //   slug: titleSlug,
     //   question_id: questionId,
@@ -92,7 +89,7 @@ export const CodeEditorScreen = () => {
     Keyboard.dismiss();
   };
 
-  if (!problem) {
+  if (!initialCode) {
     return <View />;
   }
 

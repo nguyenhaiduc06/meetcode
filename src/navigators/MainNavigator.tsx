@@ -2,15 +2,17 @@ import {
   NativeStackNavigationProp,
   createNativeStackNavigator,
 } from "@react-navigation/native-stack";
-import { ListProblemsScreen, ProblemDetailScreen } from "../screens";
+import { QuestionList, QuestionDetailScreen } from "../screens";
 import { CodeEditorScreen } from "../screens/CodeEditorScreen";
 
 export type MainStackParamList = {
-  ListProblems: undefined;
-  ProblemDetail: {
+  QuestionList: undefined;
+  QuestionDetail: {
     titleSlug: string;
   };
-  CodeEditor: undefined;
+  CodeEditor: {
+    titleSlug: string;
+  };
 };
 
 export type MainStackNavigatorProp =
@@ -22,17 +24,17 @@ export const MainNavigator = () => {
   return (
     <Main.Navigator>
       <Main.Screen
-        name="ListProblems"
-        component={ListProblemsScreen}
+        name="QuestionList"
+        component={QuestionList}
         options={{
           headerTitle: "Problems",
         }}
       />
       <Main.Screen
-        name="ProblemDetail"
-        component={ProblemDetailScreen}
+        name="QuestionDetail"
+        component={QuestionDetailScreen}
         options={{
-          headerTitle: "Detail",
+          headerTitle: "Description",
         }}
       />
       <Main.Screen

@@ -20,6 +20,7 @@ type ButtonProps = TouchableOpacityProps & {
   iconName?: string;
   label?: string;
   labelColor?: string;
+  borderColor?: string;
   backgroundColor?: string;
   size?: "sm" | "md" | "lg";
 };
@@ -34,6 +35,7 @@ const StyledTouchableOpacity = styled.TouchableOpacity<{
   color: string;
   height: number;
   width?: number;
+  borderColor: string;
 }>`
   background-color: ${(p) => p.color};
   flex-direction: row;
@@ -44,6 +46,8 @@ const StyledTouchableOpacity = styled.TouchableOpacity<{
   ${(p) => p.width && `width: ${p.width}px;`}
   padding: 0 16px;
   border-radius: 50%;
+  border-width: 1px;
+  border-color: ${(p) => p.borderColor};
 `;
 
 export const Button: FC<ButtonProps> = (props) => {
@@ -53,7 +57,8 @@ export const Button: FC<ButtonProps> = (props) => {
     iconName,
     label,
     labelColor = theme.colors.text,
-    backgroundColor = theme.colors.foreground,
+    borderColor = theme.colors.border,
+    backgroundColor = theme.colors.background,
     size = "md",
     ...rest
   } = props;
@@ -64,6 +69,7 @@ export const Button: FC<ButtonProps> = (props) => {
   return (
     <StyledTouchableOpacity
       color={backgroundColor}
+      borderColor={borderColor}
       height={height}
       width={iconOnly && height}
       {...rest}

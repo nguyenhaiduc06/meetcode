@@ -10,6 +10,7 @@ import { palette } from "../../theme";
 import { Button, Text, Space, Chip, Icon } from "../../components";
 import { useTheme } from "../../hooks";
 import Helper from "../../utils/Helper";
+import { Question } from "../../core/types";
 
 const Container = styled.View`
   flex: 1;
@@ -37,26 +38,29 @@ const BottomRight = styled.View`
   z-index: 1;
 `;
 
-export const ProblemDetailScreen = () => {
-  const [problem, setProblem] = useState(null);
+export const QuestionDetailScreen = () => {
+  const [question, setQuestion] = useState<Question>(null);
+  console.log("🚀 ~ question:", question);
   const navigation = useNavigation<MainStackNavigatorProp>();
   const route = useRoute<RouteProp<MainStackParamList>>();
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const { titleSlug } = route.params;
   useEffect(() => {
-    leetCode.getProblemDetail(titleSlug).then(setProblem);
+    leetCode.getQuestionDetail(titleSlug).then(setQuestion);
   }, []);
 
   const openCodeEditor = () => {
-    navigation.navigate("CodeEditor");
+    navigation.navigate("CodeEditor", {
+      titleSlug,
+    });
   };
 
-  if (!problem) {
+  if (!question) {
     return <View />;
   }
 
-  const { difficulty, likes, dislikes } = problem;
+  const { difficulty, likes, dislikes } = question;
 
   const baseStyle = {
     fontSize: 16,
@@ -70,7 +74,7 @@ export const ProblemDetailScreen = () => {
     },
     pre: {
       backgroundColor: theme.colors.foreground,
-      borderRadius: 8,
+      borderRadius: 4,
       paddingHorizontal: 12,
     },
   };
@@ -83,7 +87,7 @@ export const ProblemDetailScreen = () => {
           label="Solve"
           iconName="code-s-slash-line"
           backgroundColor={theme.colors.primary}
-          labelColor={palette.white}
+          labelColor={palette.white100}
           onPress={openCodeEditor}
         />
       </BottomRight>
@@ -91,15 +95,19 @@ export const ProblemDetailScreen = () => {
       <ScrollView>
         <ScrollViewContainer>
           <Text size={24} weight={600}>
-            {problem?.title}
+            {question?.title}
           </Text>
           <Row gap={16} style={{ marginVertical: 8 }}>
             <Chip
-              label={problem.difficulty}
+              label={question.difficulty}
               labelColor={theme.colors.success}
             />
             <Icon
-              name="checkbox-circle-line"
+              name={
+                question.isLiked
+                  ? "checkbox-circle-fill"
+                  : "checkbox-circle-line"
+              }
               size={18}
               color={theme.colors.success}
             />
@@ -117,13 +125,13 @@ export const ProblemDetailScreen = () => {
             </Row>
             <Icon name="star-line" size={16} color={theme.colors.text} />
           </Row>
-          {problem && (
+          {question && (
             <RenderHTML
               baseStyle={baseStyle}
               tagsStyles={tagsStyles}
               contentWidth={200}
               source={{
-                html: problem.content,
+                html: question.content,
               }}
             />
           )}

@@ -1,13 +1,13 @@
 import { gql } from "@apollo/client";
 
-export const problemsetQuestionList = gql`
-  query problemsetQuestionList(
+export const QUERY_QUESTION_LIST = gql`
+  query questionList(
     $categorySlug: String
     $limit: Int
     $skip: Int
     $filters: QuestionListFilterInput
   ) {
-    problemsetQuestionList: questionList(
+    questionList(
       categorySlug: $categorySlug
       limit: $limit
       skip: $skip
@@ -21,9 +21,9 @@ export const problemsetQuestionList = gql`
         freqBar
         likes
         dislikes
-        frontendQuestionId: questionFrontendId
+        questionFrontendId
         isFavor
-        paidOnly: isPaidOnly
+        isPaidOnly
         status
         title
         titleSlug
@@ -39,8 +39,8 @@ export const problemsetQuestionList = gql`
   }
 `;
 
-export const getQuestionDetail = gql`
-  query getQuestionDetail($titleSlug: String!) {
+export const QUERY_QUESTION_DESCRIPTION = gql`
+  query questionDetail($titleSlug: String!) {
     question(titleSlug: $titleSlug) {
       questionId
       title
@@ -61,6 +61,88 @@ export const getQuestionDetail = gql`
         code
       }
       sampleTestCase
+    }
+  }
+`;
+
+export const QUERY_QUESTION_CODE_EDITOR = gql`
+  query questionCodeEditorDetail($titleSlug: String!) {
+    question(titleSlug: $titleSlug) {
+      codeSnippets {
+        lang
+        langSlug
+        code
+      }
+      sampleTestCase
+    }
+  }
+`;
+
+export const QUERY_QUESTION_OF_TODAY = gql`
+  query questionOfToday {
+    activeDailyCodingChallengeQuestion {
+      date
+      userStatus
+      link
+      question {
+        acRate
+        difficulty
+        freqBar
+        frontendQuestionId: questionFrontendId
+        isFavor
+        paidOnly: isPaidOnly
+        status
+        title
+        titleSlug
+        hasVideoSolution
+        hasSolution
+        topicTags {
+          name
+          id
+          slug
+        }
+      }
+    }
+  }
+`;
+
+export const dailyCodingQuestionRecords = gql`
+  query dailyCodingQuestionRecords($year: Int!, $month: Int!) {
+    dailyCodingChallengeV2(year: $year, month: $month) {
+      challenges {
+        date
+        userStatus
+        link
+        question {
+          questionFrontendId
+          title
+          titleSlug
+        }
+      }
+      weeklyChallenges {
+        date
+        userStatus
+        link
+        question {
+          questionFrontendId
+          title
+          titleSlug
+        }
+      }
+    }
+  }
+`;
+
+export const GetProblemSetStudyPlanAds = gql`
+  query GetProblemSetStudyPlanAds {
+    studyPlansV2AdQuestionPage {
+      cover
+      highlight
+      name
+      onGoing
+      premiumOnly
+      questionNum
+      slug
     }
   }
 `;

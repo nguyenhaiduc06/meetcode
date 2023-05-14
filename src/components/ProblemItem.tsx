@@ -55,8 +55,8 @@ export const ProblemItem: FC<ProblemItemProps> = ({
   const theme = useTheme();
 
   const difficultyColorName = Helper.getColorNameByDifficulty(difficulty);
-  const difficultyLabelColor = palette[difficultyColorName + "700"];
-  const difficultyBackgroundColor = palette[difficultyColorName + "100"];
+  const difficultyLabelColor = palette[difficultyColorName + "600"];
+  const difficultyBackgroundColor = theme.colors.foreground;
 
   return (
     <Container onPress={onPress}>
@@ -65,7 +65,7 @@ export const ProblemItem: FC<ProblemItemProps> = ({
         <Chip
           label={difficulty}
           labelColor={difficultyLabelColor}
-          backgroundColor={difficultyBackgroundColor}
+          // backgroundColor={difficultyBackgroundColor}
         />
         {topicTags.map((tag) => (
           <Chip

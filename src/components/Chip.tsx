@@ -12,15 +12,15 @@ const Container = styled.View<{ backgroundColor?: string }>`
   background-color: ${({ backgroundColor, theme }) =>
     backgroundColor ?? theme.colors.foreground};
   border-radius: 50%;
-  padding: 3px 8px;
+  height: 22px;
+  padding: 0px 8px;
   align-items: center;
   justify-content: center;
 `;
 
 const Label = styled.Text<{ color?: string }>`
   font-size: 13px;
-  font-weight: 500;
-  color: ${({ color, theme }) => color ?? theme.colors.textDim};
+  color: ${({ color, theme }) => color ?? theme.colors.text};
 `;
 
 export const Chip: FC<ChipProps> = ({ label, labelColor, ...rest }) => {

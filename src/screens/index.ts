@@ -1,2 +1,2 @@
-export * from "./ListProblemsScreen";
-export * from "./ProblemDetailScreen";
+export * from "./QuestionListScreen";
+export * from "./QuestionDetailScreen";
