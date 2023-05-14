@@ -4,8 +4,10 @@ import {
 } from "@react-navigation/native-stack";
 import { QuestionList, QuestionDetailScreen } from "../screens";
 import { CodeEditorScreen } from "../screens/CodeEditorScreen";
+import { BottomTabNavigator } from "./BottomTabNavigator";
 
 export type MainStackParamList = {
+  BottomTab: undefined;
   QuestionList: undefined;
   QuestionDetail: {
     titleSlug: string;
@@ -24,10 +26,10 @@ export const MainNavigator = () => {
   return (
     <Main.Navigator>
       <Main.Screen
-        name="QuestionList"
-        component={QuestionList}
+        name="BottomTab"
+        component={BottomTabNavigator}
         options={{
-          headerTitle: "Problems",
+          headerShown: false,
         }}
       />
       <Main.Screen
