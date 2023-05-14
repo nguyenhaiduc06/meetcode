@@ -46,7 +46,11 @@ export const QuestionList = () => {
   };
   return (
     <Container>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={{ flexGrow: 0 }}
+      >
         <TopicTagsContainer>
           <Button size="sm" label={difficulty ?? "Difficulty"} />
           <Button size="sm" label="Status" />
