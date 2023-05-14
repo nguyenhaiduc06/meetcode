@@ -13,13 +13,8 @@ const Container = styled.View`
   gap: 16px;
 `;
 
-const LanguageButton = styled.TouchableOpacity`
-  flex-direction: row;
-  align-items: center;
-  gap: ${spacing.xs}px;
-`;
-
-export const Header = () => {
+export const Header = (props) => {
+  const { onSubmit, onRun } = props;
   const theme = useTheme();
   const navigation = useNavigation<MainStackNavigatorProp>();
 
@@ -38,12 +33,13 @@ export const Header = () => {
 
       <Space />
 
-      <Button iconName="play-fill" size="sm" />
+      <Button iconName="play-fill" size="sm" onPress={onRun} />
       <Button
         label="Submit"
         size="sm"
         backgroundColor={theme.colors.primary}
-        labelColor={palette.white}
+        labelColor={palette.white100}
+        onPress={onSubmit}
       />
     </Container>
   );

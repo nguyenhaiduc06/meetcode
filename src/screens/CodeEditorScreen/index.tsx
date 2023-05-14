@@ -1,11 +1,10 @@
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { Keyboard, ScrollView, View } from "react-native";
 import { styled } from "styled-components/native";
-import { MainStackNavigatorProp, MainStackParamList } from "../../navigators";
+import { MainStackParamList } from "../../navigators";
 import { leetCode } from "../../core/LeetCode";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { darkTheme } from "../../theme";
 import CodeEditor, {
   CodeEditorSyntaxStyles,
 } from "@rivascva/react-native-code-editor";
@@ -13,10 +12,11 @@ import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import { Icon, Button } from "../../components";
+import { Button, Icon } from "../../components";
 import { useTheme } from "../../hooks";
 import { Header } from "./Header";
-import { CodeSnippet, Question } from "../../core/types";
+import { Console } from "./Console";
+import { CodeInterpretResult, CodeEditorData } from "../../core/types";
 
 const ToolbarContainer = styled.View`
   height: 40px;
@@ -39,32 +39,29 @@ const ToolbarText = styled.Text`
 `;
 
 export const CodeEditorScreen = () => {
-  const [codeSnippets, setCodeSnippets] = useState<CodeSnippet[]>([]);
+  const [codeEditorData, setCodeEditorData] = useState<CodeEditorData>(null);
+  const [codeInterpretResult, setCodeInterpretResult] =
+    useState<CodeInterpretResult>(null);
+  console.log("🚀 ~ codeInterpretResult:", codeInterpretResult);
+  const [codeSubmitResult, setCodeSubmitResult] = useState(null);
+
   const [typedCode, setTypedCode] = useState("");
+
+  const [showConsole, setShowConsole] = useState<boolean>(false);
+
   const theme = useTheme();
   const keyboard = useAnimatedKeyboard();
   const insets = useSafeAreaInsets();
   const route = useRoute<RouteProp<MainStackParamList>>();
-  const { titleSlug } = route.params ?? {};
-
-  const codeSnippet = codeSnippets.find(
-    (snippet) => snippet.langSlug == "python"
-  );
-  const initialCode = codeSnippet?.code ?? "";
-
-  useEffect(() => {
-    leetCode
-      .getQuestionCodeEditorDetail(titleSlug)
-      .then((detail) => setCodeSnippets(detail.codeSnippets));
-  }, []);
-
+  const { titleSlug } = route.params;
   const translatedStyle = useAnimatedStyle(() => {
     return {
       width: "100%",
-      borderTopColor: theme.colors.border,
-      borderTopWidth: 1,
+      paddingVertical: 8,
+      paddingRight: 8,
       backgroundColor: theme.colors.background,
       flexDirection: "row",
+      alignItems: "center",
       position: "absolute",
       bottom:
         keyboard.height.value > insets.bottom
@@ -74,19 +71,51 @@ export const CodeEditorScreen = () => {
     };
   });
 
+  useEffect(() => {
+    leetCode.getQuestionCodeEditor(titleSlug).then(setCodeEditorData);
+  }, []);
+
+  if (!codeEditorData) {
+    return <View />;
+  }
+
+  const { exampleTestcaseList, codeSnippets } = codeEditorData;
+  const codeSnippet = codeSnippets.find(
+    (snippet) => snippet.langSlug == "python"
+  );
+  const initialCode = codeSnippet?.code ?? "";
+
+  const run = () => {
+    setShowConsole(true);
+    const { questionId, exampleTestcaseList } = codeEditorData;
+    leetCode
+      .getCodeInterpretResult({
+        titleSlug,
+        data_input: exampleTestcaseList.join("\n"),
+        question_id: questionId,
+        lang: "python3",
+        typed_code: typedCode,
+      })
+      .then(setCodeInterpretResult);
+  };
+
   const submit = () => {
-    // const { questionId } = question;
-    // leetCode.submit({
-    //   slug: titleSlug,
-    //   question_id: questionId,
-    //   lang: "python3",
-    //   typed_code: typedCode,
-    // });
+    const { questionId } = codeEditorData;
+    leetCode.submitCode({
+      titleSlug,
+      question_id: questionId,
+      lang: "python3",
+      typed_code: typedCode,
+    });
     Keyboard.dismiss();
   };
 
   const dismiss = () => {
     Keyboard.dismiss();
+  };
+
+  const toggleConsole = () => {
+    setShowConsole((show) => !show);
   };
 
   if (!initialCode) {
@@ -95,7 +124,7 @@ export const CodeEditorScreen = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Header />
+      <Header onSubmit={submit} onRun={run} />
       <CodeEditor
         initialValue={initialCode}
         autoFocus={false}
@@ -143,10 +172,29 @@ export const CodeEditorScreen = () => {
             ))}
           </ToolbarContainer>
         </ScrollView>
+        <View
+          style={{
+            borderRightWidth: 1,
+            borderRightColor: theme.colors.border,
+            height: 20,
+          }}
+        />
         <ToolbarButton onPress={dismiss}>
           <Icon name="keyboard-box-line" size={16} color={theme.colors.text} />
         </ToolbarButton>
+        <Button
+          iconName="terminal-box-line"
+          label="Console"
+          size="sm"
+          onPress={toggleConsole}
+        />
       </Animated.View>
+      <Console
+        visible={showConsole}
+        dismiss={() => setShowConsole(false)}
+        testCases={exampleTestcaseList}
+        result={codeInterpretResult}
+      />
     </View>
   );
 };

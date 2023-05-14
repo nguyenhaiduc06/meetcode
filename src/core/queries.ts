@@ -68,12 +68,19 @@ export const QUERY_QUESTION_DESCRIPTION = gql`
 export const QUERY_QUESTION_CODE_EDITOR = gql`
   query questionCodeEditorDetail($titleSlug: String!) {
     question(titleSlug: $titleSlug) {
+      questionId
       codeSnippets {
         lang
         langSlug
         code
       }
+      enableDebugger
+      enableRunCode
+      enableSubmit
+      enableTestMode
+      exampleTestcaseList
       sampleTestCase
+      metaData
     }
   }
 `;
@@ -143,6 +150,47 @@ export const GetProblemSetStudyPlanAds = gql`
       premiumOnly
       questionNum
       slug
+    }
+  }
+`;
+
+export const QUERY_STUDY_PLANS = gql`
+  query GetProblemSetStudyPlanAds {
+    studyPlansV2AdQuestionPage {
+      cover
+      highlight
+      name
+      onGoing
+      premiumOnly
+      questionNum
+      slug
+    }
+  }
+`;
+
+export const QUERY_DAILY_CODING_QUESTION_RECORDS = gql`
+  query dailyCodingQuestionRecords($year: Int!, $month: Int!) {
+    dailyCodingChallengeV2(year: $year, month: $month) {
+      challenges {
+        date
+        userStatus
+        link
+        question {
+          questionFrontendId
+          title
+          titleSlug
+        }
+      }
+      weeklyChallenges {
+        date
+        userStatus
+        link
+        question {
+          questionFrontendId
+          title
+          titleSlug
+        }
+      }
     }
   }
 `;
