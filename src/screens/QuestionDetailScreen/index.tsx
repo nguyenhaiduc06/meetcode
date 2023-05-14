@@ -103,16 +103,16 @@ export const QuestionDetailScreen = () => {
               labelColor={theme.colors.success}
             />
             <Icon
-              name={
-                question.isLiked
-                  ? "checkbox-circle-fill"
-                  : "checkbox-circle-line"
-              }
+              name="checkbox-circle-line"
               size={18}
               color={theme.colors.success}
             />
             <Row gap={4}>
-              <Icon name="thumb-up-line" size={16} color={theme.colors.text} />
+              <Icon
+                name={question.isLiked ? "thumb-up-fill" : "thumb-up-line"}
+                size={16}
+                color={theme.colors.text}
+              />
               <Text>{Helper.nFormatter(likes)}</Text>
             </Row>
             <Row gap={4}>
