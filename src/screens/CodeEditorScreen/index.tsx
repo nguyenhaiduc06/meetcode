@@ -42,6 +42,7 @@ export const CodeEditorScreen = () => {
   const [codeEditorData, setCodeEditorData] = useState<CodeEditorData>(null);
   const [codeInterpretResult, setCodeInterpretResult] =
     useState<CodeInterpretResult>(null);
+  const [codeInterpretPending, setCodeInterpretPending] = useState(false);
   console.log("🚀 ~ codeInterpretResult:", codeInterpretResult);
   const [codeSubmitResult, setCodeSubmitResult] = useState(null);
 
@@ -87,6 +88,8 @@ export const CodeEditorScreen = () => {
 
   const run = () => {
     setShowConsole(true);
+    setCodeInterpretPending(true);
+    setCodeInterpretResult(null);
     const { questionId, exampleTestcaseList } = codeEditorData;
     leetCode
       .getCodeInterpretResult({
@@ -96,7 +99,8 @@ export const CodeEditorScreen = () => {
         lang: "python3",
         typed_code: typedCode,
       })
-      .then(setCodeInterpretResult);
+      .then(setCodeInterpretResult)
+      .finally(() => setCodeInterpretPending(false));
   };
 
   const submit = () => {
@@ -133,6 +137,7 @@ export const CodeEditorScreen = () => {
           inputLineHeight: 26,
           highlighterLineHeight: 26,
           backgroundColor: "transparent",
+          fontFamily: "IBMPlexMono_400Regular",
         }}
         language="python"
         syntaxStyle={CodeEditorSyntaxStyles.atomOneDark}
@@ -192,8 +197,9 @@ export const CodeEditorScreen = () => {
       <Console
         visible={showConsole}
         dismiss={() => setShowConsole(false)}
-        testCases={exampleTestcaseList}
+        pending={codeInterpretPending}
         result={codeInterpretResult}
+        testCases={exampleTestcaseList}
       />
     </View>
   );
