@@ -10,6 +10,7 @@ type ConsoleProps = {
   dismiss: () => void;
   testCases: any[];
   result: CodeInterpretResult;
+  pending: boolean;
 };
 
 const Container = styled.View`
@@ -55,8 +56,12 @@ const InputContainer = styled.View`
   gap: 4px;
 `;
 
+const MonoText = styled(Text)`
+  font-family: "IBMPlexMono_400Regular";
+`;
+
 export const Console: FC<ConsoleProps> = (props) => {
-  const { visible, dismiss, testCases, result } = props;
+  const { visible, dismiss, testCases, result, pending } = props;
   const theme = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentTestCase = testCases[currentIndex];
@@ -64,6 +69,14 @@ export const Console: FC<ConsoleProps> = (props) => {
 
   const { code_answer, expected_code_answer } = result ?? {};
   const renderResultStatus = () => {
+    if (pending)
+      return (
+        <StatusRow>
+          <Text size={17} weight={600} color={theme.colors.warning}>
+            Pending...
+          </Text>
+        </StatusRow>
+      );
     if (!result) return <View />;
     const accepted =
       result.status_code == 10 &&
@@ -135,7 +148,7 @@ export const Console: FC<ConsoleProps> = (props) => {
               </Text>
               {inputs.map((input) => (
                 <InputContainer>
-                  <Text>{input}</Text>
+                  <MonoText>{input}</MonoText>
                 </InputContainer>
               ))}
 
@@ -147,7 +160,7 @@ export const Console: FC<ConsoleProps> = (props) => {
                     Output
                   </Text>
                   <InputContainer>
-                    <Text>{code_answer[currentIndex]}</Text>
+                    <MonoText>{code_answer[currentIndex]}</MonoText>
                   </InputContainer>
                 </>
               )}
@@ -160,7 +173,7 @@ export const Console: FC<ConsoleProps> = (props) => {
                     Expected
                   </Text>
                   <InputContainer>
-                    <Text>{expected_code_answer[currentIndex]}</Text>
+                    <MonoText>{expected_code_answer[currentIndex]}</MonoText>
                   </InputContainer>
                 </>
               )}

@@ -6,8 +6,16 @@ import { darkTheme, lightTheme } from "./src/theme";
 import { useEffect, useState } from "react";
 import { Appearance, useColorScheme } from "react-native";
 import { Theme } from "./src/theme";
+import {
+  useFonts,
+  IBMPlexMono_400Regular,
+} from "@expo-google-fonts/ibm-plex-mono";
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    IBMPlexMono_400Regular,
+  });
+
   const colorScheme = useColorScheme();
   const [theme, setTheme] = useState(
     colorScheme == "light" ? lightTheme : darkTheme
@@ -20,6 +28,10 @@ export default function App() {
       setTheme(theme);
     });
   }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <ThemeProvider theme={theme}>

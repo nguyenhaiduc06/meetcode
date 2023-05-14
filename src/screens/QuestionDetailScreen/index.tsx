@@ -4,7 +4,7 @@ import { ScrollView, View } from "react-native";
 import { styled } from "styled-components/native";
 import { MainStackNavigatorProp, MainStackParamList } from "../../navigators";
 import { leetCode } from "../../core/LeetCode";
-import RenderHTML from "react-native-render-html";
+import RenderHTML, { defaultSystemFonts } from "react-native-render-html";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { palette } from "../../theme";
 import { Button, Text, Space, Chip, Icon } from "../../components";
@@ -60,7 +60,9 @@ export const QuestionDetailScreen = () => {
     return <View />;
   }
 
-  const { difficulty, likes, dislikes } = question;
+  const { title, difficulty, isLiked, likes, dislikes, content } = question;
+
+  const systemFonts = [...defaultSystemFonts, "IBMPlexMono_400Regular"];
 
   const baseStyle = {
     fontSize: 16,
@@ -76,6 +78,10 @@ export const QuestionDetailScreen = () => {
       backgroundColor: theme.colors.foreground,
       borderRadius: 4,
       paddingHorizontal: 12,
+      fontFamily: "IBMPlexMono_400Regular",
+    },
+    code: {
+      fontFamily: "IBMPlexMono_400Regular",
     },
   };
 
@@ -95,13 +101,10 @@ export const QuestionDetailScreen = () => {
       <ScrollView>
         <ScrollViewContainer>
           <Text size={24} weight={600}>
-            {question?.title}
+            {title}
           </Text>
           <Row gap={16} style={{ marginVertical: 8 }}>
-            <Chip
-              label={question.difficulty}
-              labelColor={theme.colors.success}
-            />
+            <Chip label={difficulty} labelColor={theme.colors.success} />
             <Icon
               name="checkbox-circle-line"
               size={18}
@@ -109,7 +112,7 @@ export const QuestionDetailScreen = () => {
             />
             <Row gap={4}>
               <Icon
-                name={question.isLiked ? "thumb-up-fill" : "thumb-up-line"}
+                name={isLiked ? "thumb-up-fill" : "thumb-up-line"}
                 size={16}
                 color={theme.colors.text}
               />
@@ -125,16 +128,16 @@ export const QuestionDetailScreen = () => {
             </Row>
             <Icon name="star-line" size={16} color={theme.colors.text} />
           </Row>
-          {question && (
-            <RenderHTML
-              baseStyle={baseStyle}
-              tagsStyles={tagsStyles}
-              contentWidth={200}
-              source={{
-                html: question.content,
-              }}
-            />
-          )}
+          <RenderHTML
+            baseStyle={baseStyle}
+            tagsStyles={tagsStyles}
+            contentWidth={200}
+            systemFonts={systemFonts}
+            enableCSSInlineProcessing={false}
+            source={{
+              html: content,
+            }}
+          />
 
           {/* add 64 to height to avoid scroll view bottom content being covered by bottom buttons */}
           <Space height={insets.bottom + 64} />

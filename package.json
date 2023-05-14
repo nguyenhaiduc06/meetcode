@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.14",
+    "@expo-google-fonts/ibm-plex-mono": "^0.2.3",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
@@ -17,6 +18,7 @@
     "@types/react": "~18.0.27",
     "axios": "^1.4.0",
     "expo": "~48.0.15",
+    "expo-font": "~11.1.1",
     "expo-status-bar": "~1.4.4",
     "graphql": "^16.6.0",
     "postcss": "^8.4.23",
