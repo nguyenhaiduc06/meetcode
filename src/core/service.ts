@@ -26,7 +26,7 @@ class Service {
         headers: {
           Origin: endpoint.base,
           Referer: endpoint.base,
-          Cookie: `LEETCODE_SESSION=${this.session};csrftoken=${this.csrfToken}`,
+          Cookie: `__stripe_mid=7ceabc7d-c82a-40bf-8533-efcb88d60989cd6aac; csrftoken=2IvoH9mr4rvC4Idy4gKdHdd8sB8xkOEDYKnoEg3pgs91VbQjoPvhMNGiYdNgos8D; LEETCODE_SESSION=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfYXV0aF91c2VyX2lkIjoiNDkwNTE4NyIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImFsbGF1dGguYWNjb3VudC5hdXRoX2JhY2tlbmRzLkF1dGhlbnRpY2F0aW9uQmFja2VuZCIsIl9hdXRoX3VzZXJfaGFzaCI6IjQxYzQ1MTFlMWM4NjI0ZDg1NTJhNWI2ZDlmMjdjOGFlN2NmMTkwNTEiLCJpZCI6NDkwNTE4NywiZW1haWwiOiJuZ3V5ZW5oYWlkdWMwNkBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImhhaWR1YzA2IiwidXNlcl9zbHVnIjoiaGFpZHVjMDYiLCJhdmF0YXIiOiJodHRwczovL3MzLXVzLXdlc3QtMS5hbWF6b25hd3MuY29tL3MzLWxjLXVwbG9hZC9hc3NldHMvZGVmYXVsdF9hdmF0YXIuanBnIiwicmVmcmVzaGVkX2F0IjoxNjgzODYzNzkxLCJpcCI6IjE0LjE4OS4xMjIuMjI0IiwiaWRlbnRpdHkiOiJmOTBmY2NiYTk5NTY1NzgwYjEwMGZiOGU5ZTE0MDZjZSIsInNlc3Npb25faWQiOjM5MzMyNzU0LCJfc2Vzc2lvbl9leHBpcnkiOjEyMDk2MDB9.HGIB119oOIi1YMdEBcwsErxBXYZEsg1mRM0avScbPUc; NEW_PROBLEMLIST_PAGE=1; _dd_s=rum=0&expire=1684032001838`,
           "X-Requested-With": "XMLHttpRequest",
           "X-CSRFToken": this.csrfToken,
         },
