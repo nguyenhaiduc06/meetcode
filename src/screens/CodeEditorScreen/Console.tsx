@@ -147,7 +147,7 @@ export const Console: FC<ConsoleProps> = (props) => {
                 Input
               </Text>
               {inputs.map((input) => (
-                <InputContainer>
+                <InputContainer key={input}>
                   <MonoText>{input}</MonoText>
                 </InputContainer>
               ))}
