@@ -1,8 +1,8 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import React, { useEffect, useRef, useState } from "react";
 import { Keyboard, ScrollView, TextInput, View } from "react-native";
 import { styled } from "styled-components/native";
-import { MainStackParamList } from "../../navigators";
+import { MainStackNavigatorProp, MainStackParamList } from "../../navigators";
 import { leetCode } from "../../core/LeetCode";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
@@ -14,6 +14,7 @@ import { useTheme } from "../../hooks";
 import { Header } from "./Header";
 import { Console } from "./Console";
 import { CodeInterpretResult, CodeEditorData } from "../../core/types";
+import { Modalize } from "react-native-modalize";
 
 const Row = styled.View`
   flex-direction: row;
@@ -47,9 +48,11 @@ export const CodeEditorScreen = () => {
 
   const [typedCode, setTypedCode] = useState("");
 
+  const modalize = useRef<Modalize>(null);
   const [showConsole, setShowConsole] = useState<boolean>(false);
 
   const theme = useTheme();
+  const navigation = useNavigation<MainStackNavigatorProp>();
   const keyboard = useAnimatedKeyboard();
   const insets = useSafeAreaInsets();
   const route = useRoute<RouteProp<MainStackParamList>>();
@@ -83,7 +86,7 @@ export const CodeEditorScreen = () => {
   const initialCode = codeSnippet?.code ?? "";
 
   const run = () => {
-    setShowConsole(true);
+    openConsole();
     setCodeInterpretPending(true);
     setCodeInterpretResult(null);
     const { questionId, exampleTestcaseList } = codeEditorData;
@@ -114,8 +117,8 @@ export const CodeEditorScreen = () => {
     Keyboard.dismiss();
   };
 
-  const toggleConsole = () => {
-    setShowConsole((show) => !show);
+  const openConsole = () => {
+    modalize.current?.open();
   };
 
   return (
@@ -140,7 +143,7 @@ export const CodeEditorScreen = () => {
           iconName="terminal-box-line"
           label="Console"
           size="sm"
-          onPress={toggleConsole}
+          onPress={openConsole}
           style={{ alignSelf: "flex-start", margin: 8 }}
         />
         <Row>
@@ -194,8 +197,17 @@ export const CodeEditorScreen = () => {
       </Animated.View>
 
       <Console
-        visible={showConsole}
-        dismiss={() => setShowConsole(false)}
+        ref={modalize}
+        onOpen={() => {
+          navigation.setOptions({
+            gestureEnabled: false,
+          });
+        }}
+        onClosed={() => {
+          navigation.setOptions({
+            gestureEnabled: true,
+          });
+        }}
         pending={codeInterpretPending}
         result={codeInterpretResult}
         testCases={exampleTestcaseList}
