@@ -38,7 +38,7 @@ export const Header = (props) => {
         label="Submit"
         size="sm"
         backgroundColor={theme.colors.primary}
-        labelColor={palette.white100}
+        labelColor={palette.white[100]}
         onPress={onSubmit}
       />
     </Container>

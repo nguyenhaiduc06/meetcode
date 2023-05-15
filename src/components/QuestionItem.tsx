@@ -55,7 +55,7 @@ export const QuestionItem: FC<QuestionItemProps> = ({
   const theme = useTheme();
 
   const difficultyColorName = Helper.getColorNameByDifficulty(difficulty);
-  const difficultyLabelColor = palette[difficultyColorName + "600"];
+  const difficultyLabelColor = palette[difficultyColorName][600];
   const difficultyBackgroundColor = theme.colors.foreground;
 
   return (

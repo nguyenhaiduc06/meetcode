@@ -1,23 +1,23 @@
 import { StatusBarStyle } from "expo-status-bar/src/StatusBar.types";
-import { PaletteColor, palette } from "./colors";
+import { palette } from "./palette";
 
 type ThemeColors = {
-  background: PaletteColor;
-  foreground: PaletteColor;
-  text: PaletteColor;
-  textDim: PaletteColor;
-  success: PaletteColor;
-  failure: PaletteColor;
-  danger: PaletteColor;
-  warning: PaletteColor;
-  info: PaletteColor;
+  background: string;
+  foreground: string;
+  text: string;
+  textDim: string;
+  success: string;
+  failure: string;
+  danger: string;
+  warning: string;
+  info: string;
 
   // these colors are from navigation theme
   // setting these colors for some components in navigation
-  card: PaletteColor;
-  primary: PaletteColor;
-  border: PaletteColor;
-  notification: PaletteColor;
+  card: string;
+  primary: string;
+  border: string;
+  notification: string;
 };
 
 export type Theme = {
@@ -30,20 +30,20 @@ export const lightTheme: Theme = {
   dark: false,
   statusBarStyle: "dark",
   colors: {
-    background: palette.gray100,
-    foreground: palette.gray200,
-    text: palette.gray900,
-    textDim: palette.gray600,
-    success: palette.green500,
-    failure: palette.red500,
-    danger: palette.red500,
-    warning: palette.yellow500,
-    info: palette.blue500,
+    background: palette.gray[100],
+    foreground: palette.gray[200],
+    text: palette.gray[900],
+    textDim: palette.gray[600],
+    success: palette.green[500],
+    failure: palette.red[500],
+    danger: palette.red[500],
+    warning: palette.yellow[500],
+    info: palette.blue[500],
 
-    card: palette.gray200,
-    primary: palette.blue500,
-    border: palette.black20,
-    notification: palette.blue500,
+    card: palette.gray[200],
+    primary: palette.blue[500],
+    border: palette.black[20],
+    notification: palette.blue[500],
   },
 };
 
@@ -52,23 +52,23 @@ export const darkTheme: Theme = {
   statusBarStyle: "light",
   colors: {
     ...lightTheme.colors,
-    background: palette.gray900,
-    foreground: palette.gray800,
-    text: palette.white100,
-    textDim: palette.gray500,
-    success: palette.green500,
-    failure: palette.red500,
-    danger: palette.red500,
-    warning: palette.yellow500,
-    info: palette.blue500,
+    background: palette.gray[900],
+    foreground: palette.gray[800],
+    text: palette.white[100],
+    textDim: palette.white[50],
+    success: palette.green[500],
+    failure: palette.red[500],
+    danger: palette.red[500],
+    warning: palette.amber[500],
+    info: palette.blue[500],
 
-    card: palette.gray900,
-    primary: palette.blue500,
-    border: palette.white20,
-    notification: palette.blue500,
+    card: palette.gray[900],
+    primary: palette.sky[500],
+    border: palette.white[20],
+    notification: palette.blue[500],
   },
 };
 
-export * from "./colors";
+export * from "./palette";
 
 export * from "./spacing";

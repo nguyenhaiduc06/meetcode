@@ -93,7 +93,7 @@ export const QuestionDetailScreen = () => {
           label="Solve"
           iconName="code-s-slash-line"
           backgroundColor={theme.colors.primary}
-          labelColor={palette.white100}
+          labelColor={palette.white[100]}
           onPress={openCodeEditor}
         />
       </BottomRight>
