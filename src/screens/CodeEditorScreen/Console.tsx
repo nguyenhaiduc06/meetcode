@@ -23,10 +23,6 @@ export const Console = forwardRef<Modalize, ConsoleProps>((props, ref) => {
 
   const { code_answer, expected_code_answer } = result ?? {};
 
-  const closeConsole = () => {
-    ref.current.close();
-  };
-
   const getTitle = () => {
     if (pending)
       return {
@@ -76,12 +72,12 @@ export const Console = forwardRef<Modalize, ConsoleProps>((props, ref) => {
               {result?.status_memory}
             </Text>
           </StatusRow>
-          <Button iconName="close-line" size="sm" onPress={closeConsole} />
         </TitleRow>
         <View style={{ flex: 1 }}>
           <Row>
             {testCases.map((testCase, index) => (
               <Button
+                key={`btn-testcase-${index}`}
                 label={`Case ${index + 1}`}
                 backgroundColor={
                   index == currentIndex
