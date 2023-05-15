@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components/native";
 import { leetCode } from "../../core/LeetCode";
-import { Space, StudyPlanItem, Text } from "../../components";
+import { Button, Space, StudyPlanItem, Text } from "../../components";
 import { ScrollView, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { MainStackNavigatorProp } from "../../navigators";
+import { useTheme } from "../../hooks";
+import { DailyChallengeRecords } from "./DailyChallengeRecords";
 
 const Container = styled.View`
   flex: 1;
@@ -12,47 +16,56 @@ const StudyPlansContainer = styled.View`
   flex-direction: row;
   align-items: center;
   padding: 0 16px;
-  margin-top: 8px;
+  margin-top: 16px;
   gap: 16px;
 `;
 
 export const HomeScreen = () => {
   const [studyPlans, setStudyPlans] = useState([]);
-  const [dailyChallengeRecords, setDailyChallengeRecords] = useState([]);
+
+  const navigation = useNavigation<MainStackNavigatorProp>();
+  const theme = useTheme();
 
   useEffect(() => {
     leetCode.getStudyPlans().then(setStudyPlans);
-    leetCode.getDailyCodingQuestionRecords().then(setDailyChallengeRecords);
   }, []);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          iconName="notification-line"
+          borderColor="transparent"
+          backgroundColor="transparent"
+        />
+      ),
+    });
+  });
+
   return (
     <Container>
-      <Space height={16} />
-      <Text size={24} weight={600} style={{ paddingHorizontal: 16 }}>
-        Study plans
-      </Text>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={{ flexGrow: 0 }}
-      >
-        <StudyPlansContainer>
-          {studyPlans.map((plan) => (
-            <StudyPlanItem {...plan} />
-          ))}
-        </StudyPlansContainer>
+      <ScrollView>
+        <Space height={24} />
+        <Text size={21} weight={600} style={{ paddingHorizontal: 16 }}>
+          Study plans
+        </Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={{ flexGrow: 0 }}
+        >
+          <StudyPlansContainer>
+            {studyPlans.map((plan) => (
+              <StudyPlanItem {...plan} />
+            ))}
+          </StudyPlansContainer>
+        </ScrollView>
+        <Space height={24} />
+        <Text size={21} weight={600} style={{ paddingHorizontal: 16 }}>
+          Daily challenges
+        </Text>
+        <DailyChallengeRecords />
       </ScrollView>
-      <Space height={16} />
-      <Text size={24} weight={600} style={{ paddingHorizontal: 16 }}>
-        Daily challenges
-      </Text>
-      <View
-        style={{
-          backgroundColor: "red",
-          height: 300,
-          marginHorizontal: 16,
-          marginTop: 8,
-        }}
-      />
     </Container>
   );
 };
