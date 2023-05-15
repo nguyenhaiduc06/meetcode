@@ -28,6 +28,14 @@ export const QuestionList = () => {
   const [questions, setQuestions] = useState([]);
   const navigation = useNavigation<MainStackNavigatorProp>();
 
+  const openSearch = () => {
+    setShowSearch(true);
+  };
+
+  const closeSearch = () => {
+    setShowSearch(false);
+  };
+
   useEffect(() => {
     leetCode.getQuestions().then(setQuestions);
   }, []);
@@ -39,7 +47,7 @@ export const QuestionList = () => {
           iconName="search-line"
           borderColor="transparent"
           backgroundColor="transparent"
-          onPress={() => setShowSearch(true)}
+          onPress={openSearch}
         />
       ),
     });
@@ -81,7 +89,7 @@ export const QuestionList = () => {
         visible={showSearch}
         animationType="fade"
         transparent
-        dismiss={() => setShowSearch(false)}
+        dismiss={closeSearch}
       />
     </Container>
   );
