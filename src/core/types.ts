@@ -41,7 +41,7 @@ export type Question = {
   content: string;
 };
 
-export type QuestionDescription = {
+export type QuestionDescriptionData = {
   questionId: string;
   acRate: number;
   difficulty: Difficulty;
@@ -52,7 +52,7 @@ export type QuestionDescription = {
   isLiked: boolean;
   isFavor: boolean;
   isPaidOnly: boolean;
-  status: string;
+  status: "ac" | "notac" | null;
   title: string;
   titleSlug: string;
   topicTags: TopicTag[];
@@ -62,18 +62,13 @@ export type QuestionDescription = {
   content: string;
 };
 
-export type QuestionCodeEditor = {
-  codeSnippets: CodeSnippet[];
-  sampleTestCases: any;
-};
+// --- Code editor ---
 
 export type CodeSnippet = {
   lang: string;
   langSlug: string;
   code: string;
 };
-
-// --- Code editor ---
 
 export type CodeEditorData = {
   questionId: string;

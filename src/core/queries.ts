@@ -52,15 +52,10 @@ export const QUERY_QUESTION_DESCRIPTION = gql`
       stats
       status
       content
+      hints
       topicTags {
         name
       }
-      codeSnippets {
-        lang
-        langSlug
-        code
-      }
-      sampleTestCase
     }
   }
 `;

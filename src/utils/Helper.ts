@@ -1,11 +1,13 @@
+import { palette } from "../theme";
+
 class Helper {
-  static getColorNameByDifficulty(difficulty: string) {
-    const colorNameByDifficulty = {
-      easy: "green",
-      medium: "yellow",
-      hard: "red",
+  static getColorByDifficulty(difficulty: string) {
+    const colorByDifficulty = {
+      easy: palette.green[500],
+      medium: palette.amber[500],
+      hard: palette.red[500],
     };
-    return colorNameByDifficulty[difficulty.toLowerCase()];
+    return colorByDifficulty[difficulty.toLowerCase()];
   }
 
   static nFormatter(num: number, digits: number = 1) {

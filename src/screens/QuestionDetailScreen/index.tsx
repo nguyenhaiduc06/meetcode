@@ -59,7 +59,23 @@ export const QuestionDetailScreen = () => {
     return <View />;
   }
 
-  const { title, difficulty, isLiked, likes, dislikes, content } = question;
+  const { title, difficulty, isLiked, likes, dislikes, content, status } =
+    question;
+
+  const statusIconName =
+    status == "ac"
+      ? "checkbox-circle-line"
+      : status == "notac"
+      ? "indeterminate-circle-line"
+      : "checkbox-blank-circle-line";
+  const statusIconColor =
+    status == "ac"
+      ? theme.colors.success
+      : status == "notac"
+      ? theme.colors.warning
+      : theme.colors.textDim;
+
+  const difficultyLabelColor = Helper.getColorByDifficulty(difficulty);
 
   const systemFonts = [...defaultSystemFonts, "IBMPlexMono_400Regular"];
 
@@ -99,21 +115,19 @@ export const QuestionDetailScreen = () => {
 
       <ScrollView>
         <ScrollViewContainer>
-          <Text size={24} weight={600}>
-            {title}
-          </Text>
+          <Row gap={8}>
+            <Icon name={statusIconName} size={20} color={statusIconColor} />
+            <Text size={24} weight={600} numberOfLines={1} style={{ flex: 1 }}>
+              {title}
+            </Text>
+          </Row>
           <Row gap={16} style={{ marginVertical: 8 }}>
-            <Chip label={difficulty} labelColor={theme.colors.success} />
-            <Icon
-              name="checkbox-circle-line"
-              size={18}
-              color={theme.colors.success}
-            />
+            <Chip label={difficulty} labelColor={difficultyLabelColor} />
             <Row gap={4}>
               <Icon
                 name={isLiked ? "thumb-up-fill" : "thumb-up-line"}
                 size={16}
-                color={theme.colors.text}
+                color={theme.colors.textDim}
               />
               <Text>{Helper.nFormatter(likes)}</Text>
             </Row>
@@ -121,7 +135,7 @@ export const QuestionDetailScreen = () => {
               <Icon
                 name="thumb-down-line"
                 size={16}
-                color={theme.colors.text}
+                color={theme.colors.textDim}
               />
               <Text>{Helper.nFormatter(dislikes)}</Text>
             </Row>
