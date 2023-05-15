@@ -7,7 +7,7 @@ import { Icon } from "./Icon";
 import Helper from "../utils/Helper";
 import { palette, spacing } from "../theme";
 
-type ProblemItemProps = TouchableOpacityProps & {
+type QuestionItemProps = TouchableOpacityProps & {
   title: string;
   difficulty: string;
   likes: number;
@@ -43,7 +43,7 @@ const Subtitle = styled.Text<{ dim?: boolean }>`
     dim ? theme.colors.textDim : theme.colors.text};
 `;
 
-export const ProblemItem: FC<ProblemItemProps> = ({
+export const QuestionItem: FC<QuestionItemProps> = ({
   onPress,
   difficulty,
   title,

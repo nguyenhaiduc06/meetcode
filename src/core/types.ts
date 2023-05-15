@@ -1,14 +1,14 @@
 export type GetQuestionsOptions = {
-  categorySlug: string;
-  skip: number;
-  limit: 50;
-  filters: QuestionListFilterInput;
+  categorySlug?: string;
+  skip?: number;
+  limit?: 50;
+  filters?: QuestionListFilterInput;
 };
 export type QuestionListFilterInput = {
-  difficulty: Difficulty;
-  tags: any[];
-  searchKeywords: string;
-  status: Status;
+  difficulty?: Difficulty;
+  tags?: any[];
+  searchKeywords?: string;
+  status?: Status;
 };
 
 export type Difficulty = "EASY" | "MEDIUM" | "HARD";

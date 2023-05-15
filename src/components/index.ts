@@ -1,6 +1,6 @@
 export * from "./Chip";
 export * from "./Icon";
-export * from "./ProblemItem";
+export * from "./QuestionItem";
 export * from "./Space";
 export * from "./Button";
 export * from "./Text";
