@@ -13,8 +13,13 @@ import { Button, Icon, Text } from "../../components";
 import { useTheme } from "../../hooks";
 import { Header } from "./Header";
 import { Console } from "./Console";
-import { CodeInterpretResult, CodeEditorData } from "../../core/types";
+import {
+  CodeInterpretResult,
+  CodeEditorData,
+  CodeSubmitResult,
+} from "../../core/types";
 import { Modalize } from "react-native-modalize";
+import { SubmitResult } from "./SubmitResult";
 
 const Row = styled.View`
   flex-direction: row;
@@ -44,11 +49,16 @@ export const CodeEditorScreen = () => {
   const [codeInterpretResult, setCodeInterpretResult] =
     useState<CodeInterpretResult>(null);
   const [codeInterpretPending, setCodeInterpretPending] = useState(false);
-  const [codeSubmitResult, setCodeSubmitResult] = useState(null);
+
+  const [codeSubmitResult, setCodeSubmitResult] =
+    useState<CodeSubmitResult>(null);
+  console.log("🚀 ~ codeSubmitResult:", codeSubmitResult);
+  const [codeSubmitPending, setCodeSubmitPending] = useState(false);
 
   const [typedCode, setTypedCode] = useState("");
 
-  const modalize = useRef<Modalize>(null);
+  const consoleModal = useRef<Modalize>(null);
+  const submitResultModal = useRef<Modalize>(null);
   const [showConsole, setShowConsole] = useState<boolean>(false);
 
   const theme = useTheme();
@@ -86,7 +96,8 @@ export const CodeEditorScreen = () => {
   const initialCode = codeSnippet?.code ?? "";
 
   const run = () => {
-    openConsole();
+    Keyboard.dismiss();
+    openModal(consoleModal);
     setCodeInterpretPending(true);
     setCodeInterpretResult(null);
     const { questionId, exampleTestcaseList } = codeEditorData;
@@ -103,22 +114,24 @@ export const CodeEditorScreen = () => {
   };
 
   const submit = () => {
+    Keyboard.dismiss();
+    openModal(submitResultModal);
+    setCodeSubmitPending(true);
+    setCodeSubmitResult(null);
     const { questionId } = codeEditorData;
-    leetCode.submitCode({
-      titleSlug,
-      question_id: questionId,
-      lang: "python3",
-      typed_code: typedCode,
-    });
-    Keyboard.dismiss();
+    leetCode
+      .getCodeSubmitResult({
+        titleSlug,
+        question_id: questionId,
+        lang: "python3",
+        typed_code: typedCode,
+      })
+      .then(setCodeSubmitResult)
+      .finally(() => setCodeSubmitPending(false));
   };
 
-  const dismiss = () => {
-    Keyboard.dismiss();
-  };
-
-  const openConsole = () => {
-    modalize.current?.open();
+  const openModal = (modalRef) => {
+    modalRef.current?.open();
   };
 
   return (
@@ -143,7 +156,7 @@ export const CodeEditorScreen = () => {
           iconName="terminal-box-line"
           label="Console"
           size="sm"
-          onPress={openConsole}
+          onPress={() => openModal(consoleModal)}
           style={{ alignSelf: "flex-start", margin: 8 }}
         />
         <Row>
@@ -186,7 +199,7 @@ export const CodeEditorScreen = () => {
               height: 24,
             }}
           />
-          <ToolbarButton onPress={dismiss}>
+          <ToolbarButton onPress={Keyboard.dismiss}>
             <Icon
               name="keyboard-box-line"
               size={16}
@@ -197,7 +210,7 @@ export const CodeEditorScreen = () => {
       </Animated.View>
 
       <Console
-        ref={modalize}
+        ref={consoleModal}
         onOpen={() => {
           navigation.setOptions({
             gestureEnabled: false,
@@ -211,6 +224,22 @@ export const CodeEditorScreen = () => {
         pending={codeInterpretPending}
         result={codeInterpretResult}
         testCases={exampleTestcaseList}
+      />
+
+      <SubmitResult
+        ref={submitResultModal}
+        onOpen={() => {
+          navigation.setOptions({
+            gestureEnabled: false,
+          });
+        }}
+        onClosed={() => {
+          navigation.setOptions({
+            gestureEnabled: true,
+          });
+        }}
+        pending={codeSubmitPending}
+        result={codeSubmitResult}
       />
     </View>
   );

@@ -73,6 +73,8 @@ export type CodeSnippet = {
   code: string;
 };
 
+// --- Code editor ---
+
 export type CodeEditorData = {
   questionId: string;
   codeSnippets: CodeSnippet[];
@@ -121,6 +123,38 @@ export type CodeInterpretResult = {
   status_msg: string;
   state: string;
 };
+
+export type CodeSubmitResult = {
+  question_id: string;
+  lang: string;
+  pretty_lang: string;
+  state: string;
+  submission_id: string;
+  status_msg: string;
+  status_code: number;
+  status_runtime: string;
+  runtime_percentile: number;
+  status_memory: string;
+  memory_percentile: number;
+
+  total_correct: number;
+  total_testcases: number;
+  compare_result: string;
+
+  run_success: boolean;
+  memory: number;
+  elapsed_time: number;
+  code_output: string;
+  std_output: string;
+  last_testcase: string;
+  expected_output: string;
+  task_finish_time: number;
+  task_name: string;
+  finished: boolean;
+  full_runtime_error: string;
+};
+
+// --- End Code editor ---
 
 // --- Daily Challenge Records ---
 

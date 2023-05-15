@@ -98,7 +98,7 @@ class LeetCode {
     });
   }
 
-  async submitCode({ titleSlug, lang, question_id, typed_code }) {
+  async getCodeSubmitResult({ titleSlug, lang, question_id, typed_code }) {
     const res = await service.HTTPRequest({
       url: `problems/${titleSlug}/submit/`,
       method: "POST",
@@ -108,7 +108,27 @@ class LeetCode {
         typed_code,
       },
     });
-    console.log("🚀 ~ res:", res.data);
+    const { submission_id } = res.data;
+    return new Promise((resolve, reject) => {
+      const MAX_CHECK_COUNT = 10;
+      let checkCount = 0;
+
+      const checkInterval = setInterval(async () => {
+        const res = await service.HTTPRequest({
+          url: `/submissions/detail/${submission_id}/check/`,
+          method: "GET",
+        });
+        checkCount += 1;
+        const { state } = res.data;
+        if (state != "PENDING" && state != "STARTED") {
+          clearInterval(checkInterval);
+          resolve(res.data);
+        }
+        if (checkCount >= MAX_CHECK_COUNT) {
+          reject("Max check count reached");
+        }
+      }, 300);
+    });
   }
 
   async getStudyPlans() {
