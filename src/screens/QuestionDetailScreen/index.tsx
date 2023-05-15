@@ -40,7 +40,6 @@ const BottomRight = styled.View`
 
 export const QuestionDetailScreen = () => {
   const [question, setQuestion] = useState<Question>(null);
-  console.log("🚀 ~ question:", question);
   const navigation = useNavigation<MainStackNavigatorProp>();
   const route = useRoute<RouteProp<MainStackParamList>>();
   const theme = useTheme();
