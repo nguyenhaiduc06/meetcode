@@ -3,10 +3,11 @@ import {
   QUERY_QUESTION_DESCRIPTION,
   QUERY_QUESTION_CODE_EDITOR,
   QUERY_STUDY_PLANS,
-  QUERY_DAILY_CODING_QUESTION_RECORDS,
+  QUERY_DAILY_CHALLENGE_RECORDS,
+  QUERY_DAILY_CHALLENGE_MEDAL,
 } from "./queries";
 import service from "./service";
-import { GetQuestionsOptions } from "./types";
+import { GetDailyChallengeRecordsOptions, GetQuestionsOptions } from "./types";
 
 class LeetCode {
   async getQuestionOfToday() {}
@@ -117,15 +118,32 @@ class LeetCode {
     return res.data.studyPlansV2AdQuestionPage;
   }
 
-  async getDailyCodingQuestionRecords() {
+  async getDailyChallengeRecords(options?: GetDailyChallengeRecordsOptions) {
+    const today = new Date();
+    const { year = today.getFullYear(), month = today.getMonth() + 1 } =
+      options ?? {};
     const res = await service.GraphQLQuery({
-      query: QUERY_DAILY_CODING_QUESTION_RECORDS,
+      query: QUERY_DAILY_CHALLENGE_RECORDS,
       variables: {
-        year: 2023,
-        month: 5,
+        year,
+        month,
       },
     });
     return res.data.dailyCodingChallengeV2.challenges;
+  }
+
+  async getDailyChallengeMedal(options?) {
+    const today = new Date();
+    const { year = today.getFullYear(), month = today.getMonth() + 1 } =
+      options ?? {};
+    const res = await service.GraphQLQuery({
+      query: QUERY_DAILY_CHALLENGE_MEDAL,
+      variables: {
+        year,
+        month,
+      },
+    });
+    return res.data.dailyChallengeMedal;
   }
 }
 

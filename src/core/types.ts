@@ -121,3 +121,21 @@ export type CodeInterpretResult = {
   status_msg: string;
   state: string;
 };
+
+// --- Daily Challenge Records ---
+
+export type DailyChallengeRecord = {
+  date: string;
+  link: string;
+  question: {};
+  userStatus: DailyChallengeRecordStatus;
+};
+
+export type DailyChallengeRecordStatus = "NotStart" | "Finish";
+
+export type GetDailyChallengeRecordsOptions = {
+  year: number;
+  month: number;
+};
+
+// --- End Daily Challenge Records ---

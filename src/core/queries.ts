@@ -168,8 +168,8 @@ export const QUERY_STUDY_PLANS = gql`
   }
 `;
 
-export const QUERY_DAILY_CODING_QUESTION_RECORDS = gql`
-  query dailyCodingQuestionRecords($year: Int!, $month: Int!) {
+export const QUERY_DAILY_CHALLENGE_RECORDS = gql`
+  query dailyChallengeRecords($year: Int!, $month: Int!) {
     dailyCodingChallengeV2(year: $year, month: $month) {
       challenges {
         date
@@ -181,15 +181,16 @@ export const QUERY_DAILY_CODING_QUESTION_RECORDS = gql`
           titleSlug
         }
       }
-      weeklyChallenges {
-        date
-        userStatus
-        link
-        question {
-          questionFrontendId
-          title
-          titleSlug
-        }
+    }
+  }
+`;
+
+export const QUERY_DAILY_CHALLENGE_MEDAL = gql`
+  query codingChallengeMedal($year: Int!, $month: Int!) {
+    dailyChallengeMedal(year: $year, month: $month) {
+      name
+      config {
+        icon
       }
     }
   }
