@@ -8,14 +8,14 @@ const Container = styled.View`
   padding: 8px;
   width: 200px;
   gap: 8px;
-  border-radius: 4px;
+  border-radius: 8px;
   background-color: ${(p) => p.theme.colors.foreground};
 `;
 
 const Cover = styled.Image`
   width: 64px;
   height: 64px;
-  border-radius: 2px;
+  border-radius: 4px;
 `;
 
 export const StudyPlanItem = (props) => {
