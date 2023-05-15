@@ -149,6 +149,7 @@ const Card = styled.View`
   background-color: ${(p) => p.theme.colors.background};
   border-radius: 16px;
   margin: 16px;
+  border: 1px solid ${(p) => p.theme.colors.border};
 `;
 
 const TitleRow = styled.View`
