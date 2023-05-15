@@ -36,7 +36,7 @@ const SearchRow = styled.View`
 
 const SearchInput = styled.TextInput`
   flex: 1;
-  font-size: 17px;
+  font-size: 15px;
   color: ${(p) => p.theme.colors.text};
   padding: 8px 12px;
   border-radius: 50%;
