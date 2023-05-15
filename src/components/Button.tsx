@@ -68,6 +68,7 @@ export const Button: FC<ButtonProps> = (props) => {
 
   return (
     <StyledTouchableOpacity
+      activeOpacity={0.8}
       color={backgroundColor}
       borderColor={borderColor}
       height={height}
