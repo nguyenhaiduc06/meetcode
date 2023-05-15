@@ -16,18 +16,7 @@ export default function App() {
     IBMPlexMono_400Regular,
   });
 
-  const colorScheme = useColorScheme();
-  const [theme, setTheme] = useState(
-    colorScheme == "light" ? lightTheme : darkTheme
-  );
-
-  useEffect(() => {
-    const removeListener = Appearance.addChangeListener((preferences) => {
-      const colorScheme = preferences.colorScheme;
-      const theme = colorScheme == "light" ? lightTheme : darkTheme;
-      setTheme(theme);
-    });
-  }, []);
+  const theme = darkTheme;
 
   if (!fontsLoaded) {
     return null;
