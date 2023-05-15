@@ -35,7 +35,7 @@ export const RecordCell: FC<RecordCellProps> = (props) => {
       {record && record.userStatus == "Finish" ? (
         <Icon
           name="checkbox-circle-line"
-          size={18}
+          size={20}
           color={theme.colors.success}
         />
       ) : (
