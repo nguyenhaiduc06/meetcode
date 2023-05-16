@@ -5,3 +5,4 @@ export * from "./Space";
 export * from "./Button";
 export * from "./Text";
 export * from "./StudyPlanItem";
+export * from "./ModalSheet";
