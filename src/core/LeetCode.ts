@@ -9,14 +9,20 @@ import {
 } from "./queries";
 import service from "./service";
 import {
+  CodeEditorData,
+  CodeInterpretResult,
+  CodeSubmitResult,
   GetDailyChallengeRecordsOptions,
   GetQuestionsOptions,
   QuestionDescriptionData,
+  QuestionMetadata,
 } from "./types";
 
 class LeetCode {
   async getQuestionOfToday() {}
-  async getQuestions(options?: GetQuestionsOptions) {
+  async getQuestions(
+    options?: GetQuestionsOptions
+  ): Promise<QuestionMetadata[]> {
     const {
       categorySlug = "",
       skip = 0,
@@ -55,7 +61,7 @@ class LeetCode {
     return res.data.question.content;
   }
 
-  async getQuestionCodeEditor(titleSlug) {
+  async getQuestionCodeEditor(titleSlug): Promise<CodeEditorData> {
     const res = await service.GraphQLQuery({
       query: QUERY_QUESTION_CODE_EDITOR,
       variables: {
@@ -71,7 +77,7 @@ class LeetCode {
     lang,
     question_id,
     typed_code,
-  }) {
+  }): Promise<CodeInterpretResult> {
     const res = await service.HTTPRequest({
       url: `problems/${titleSlug}/interpret_solution/`,
       method: "POST",
@@ -113,7 +119,12 @@ class LeetCode {
     });
   }
 
-  async getCodeSubmitResult({ titleSlug, lang, question_id, typed_code }) {
+  async getCodeSubmitResult({
+    titleSlug,
+    lang,
+    question_id,
+    typed_code,
+  }): Promise<CodeSubmitResult> {
     const res = await service.HTTPRequest({
       url: `problems/${titleSlug}/submit/`,
       method: "POST",
