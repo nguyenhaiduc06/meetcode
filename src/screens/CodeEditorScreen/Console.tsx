@@ -148,7 +148,7 @@ const Row = styled.View`
 const InputContainer = styled.View`
   padding: 12px;
   margin-top: 8px;
-  border-radius: 4px;
+  border-radius: 8px;
   background-color: ${(p) => p.theme.colors.foreground};
   gap: 4px;
 `;
