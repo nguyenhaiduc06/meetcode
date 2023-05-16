@@ -1,7 +1,7 @@
 import React, { FC, forwardRef, useState } from "react";
 import { Modal, View, ScrollView } from "react-native";
 import { styled } from "styled-components/native";
-import { Button, Space, Text } from "../../components";
+import { Button, ModalSheet, Space, Text } from "../../components";
 import { useTheme } from "../../hooks";
 import { CodeInterpretResult } from "../../core/types";
 import { Modalize, ModalizeProps } from "react-native-modalize";
@@ -46,111 +46,88 @@ export const Console = forwardRef<Modalize, ConsoleProps>((props, ref) => {
   const title = getTitle();
 
   return (
-    <Modalize
-      adjustToContentHeight
-      ref={ref}
-      modalStyle={{ backgroundColor: "transparent" }}
-      withHandle={false}
-      withReactModal
-      {...rest}
-    >
-      <Card
-      // onStartShouldSetResponder={(event) => true}
-      // onTouchEnd={(e) => {
-      //   e.stopPropagation();
-      // }}
-      >
-        <TitleRow>
-          <StatusRow>
-            <Text size={17} weight={600} color={title.color}>
-              {title.label}
-            </Text>
-            <Text size={13} dim>
-              {result?.status_runtime}
-            </Text>
-            <Text size={13} dim>
-              {result?.status_memory}
-            </Text>
-          </StatusRow>
-        </TitleRow>
-        <View style={{ flex: 1 }}>
-          <Row>
-            {testCases.map((testCase, index) => (
-              <Button
-                key={`btn-testcase-${index}`}
-                label={`Case ${index + 1}`}
-                backgroundColor={
-                  index == currentIndex
-                    ? theme.colors.foreground
-                    : theme.colors.background
-                }
-                borderColor={
-                  index == currentIndex ? "transparent" : theme.colors.border
-                }
-                labelColor={
-                  !result
-                    ? undefined
-                    : result.compare_result[index] == "0"
-                    ? theme.colors.failure
-                    : theme.colors.success
-                }
-                size="sm"
-                onPress={() => setCurrentIndex(index)}
-              />
-            ))}
-          </Row>
+    <ModalSheet ref={ref}>
+      <TitleRow>
+        <StatusRow>
+          <Text size={17} weight={600} color={title.color}>
+            {title.label}
+          </Text>
+          <Text size={13} dim>
+            {result?.status_runtime}
+          </Text>
+          <Text size={13} dim>
+            {result?.status_memory}
+          </Text>
+        </StatusRow>
+      </TitleRow>
+      <View style={{ flex: 1 }}>
+        <Row>
+          {testCases.map((testCase, index) => (
+            <Button
+              key={`btn-testcase-${index}`}
+              label={`Case ${index + 1}`}
+              backgroundColor={
+                index == currentIndex
+                  ? theme.colors.foreground
+                  : theme.colors.background
+              }
+              borderColor={
+                index == currentIndex ? "transparent" : theme.colors.border
+              }
+              labelColor={
+                !result
+                  ? undefined
+                  : result.compare_result[index] == "0"
+                  ? theme.colors.failure
+                  : theme.colors.success
+              }
+              size="sm"
+              onPress={() => setCurrentIndex(index)}
+            />
+          ))}
+        </Row>
+        <Space height={16} />
+        <ScrollView style={{ flex: 1 }}>
+          <Text size={13} dim>
+            Input
+          </Text>
+          {inputs.map((input) => (
+            <InputContainer key={input}>
+              <MonoText>{input}</MonoText>
+            </InputContainer>
+          ))}
+
           <Space height={16} />
-          <ScrollView style={{ flex: 1 }}>
-            <Text size={13} dim>
-              Input
-            </Text>
-            {inputs.map((input) => (
-              <InputContainer key={input}>
-                <MonoText>{input}</MonoText>
+
+          {!!code_answer?.length && (
+            <>
+              <Text size={13} dim>
+                Output
+              </Text>
+              <InputContainer>
+                <MonoText>{code_answer[currentIndex]}</MonoText>
               </InputContainer>
-            ))}
+            </>
+          )}
 
-            <Space height={16} />
+          <Space height={16} />
 
-            {!!code_answer?.length && (
-              <>
-                <Text size={13} dim>
-                  Output
-                </Text>
-                <InputContainer>
-                  <MonoText>{code_answer[currentIndex]}</MonoText>
-                </InputContainer>
-              </>
-            )}
-
-            <Space height={16} />
-
-            {!!expected_code_answer?.length && (
-              <>
-                <Text size={13} dim>
-                  Expected
-                </Text>
-                <InputContainer>
-                  <MonoText>{expected_code_answer[currentIndex]}</MonoText>
-                </InputContainer>
-              </>
-            )}
-          </ScrollView>
-        </View>
-      </Card>
+          {!!expected_code_answer?.length && (
+            <>
+              <Text size={13} dim>
+                Expected
+              </Text>
+              <InputContainer>
+                <MonoText>{expected_code_answer[currentIndex]}</MonoText>
+              </InputContainer>
+            </>
+          )}
+        </ScrollView>
+      </View>
       <Space height={insets.bottom} />
-    </Modalize>
+    </ModalSheet>
   );
 });
-
-const Card = styled.View`
-  height: 400px;
-  padding: 16px;
-  background-color: ${(p) => p.theme.colors.background};
-  border-radius: 16px;
-  margin: 16px;
-  border: 1px solid ${(p) => p.theme.colors.border};
-`;
 
 const TitleRow = styled.View`
   flex-direction: row;
