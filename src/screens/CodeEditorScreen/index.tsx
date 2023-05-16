@@ -52,7 +52,6 @@ export const CodeEditorScreen = () => {
 
   const [codeSubmitResult, setCodeSubmitResult] =
     useState<CodeSubmitResult>(null);
-  console.log("🚀 ~ codeSubmitResult:", codeSubmitResult);
   const [codeSubmitPending, setCodeSubmitPending] = useState(false);
 
   const [typedCode, setTypedCode] = useState("");
@@ -65,7 +64,7 @@ export const CodeEditorScreen = () => {
   const navigation = useNavigation<MainStackNavigatorProp>();
   const keyboard = useAnimatedKeyboard();
   const insets = useSafeAreaInsets();
-  const route = useRoute<RouteProp<MainStackParamList>>();
+  const route = useRoute<RouteProp<MainStackParamList, "CodeEditor">>();
   const { titleSlug } = route.params;
   const translatedStyle = useAnimatedStyle(() => {
     return {
