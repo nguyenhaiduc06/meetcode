@@ -1,11 +1,10 @@
-import React, { FC, forwardRef, useState } from "react";
-import { Modal, View, ScrollView } from "react-native";
+import React, { forwardRef, useState } from "react";
+import { View, ScrollView } from "react-native";
 import { styled } from "styled-components/native";
 import { Button, ModalSheet, Space, Text } from "../../components";
 import { useTheme } from "../../hooks";
 import { CodeInterpretResult } from "../../core/types";
 import { Modalize, ModalizeProps } from "react-native-modalize";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type ConsoleProps = ModalizeProps & {
   testCases: any[];
@@ -16,7 +15,6 @@ type ConsoleProps = ModalizeProps & {
 export const Console = forwardRef<Modalize, ConsoleProps>((props, ref) => {
   const { testCases, result, pending, ...rest } = props;
   const theme = useTheme();
-  const insets = useSafeAreaInsets();
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentTestCase = testCases[currentIndex];
   const inputs = currentTestCase.split("\n");
@@ -124,7 +122,6 @@ export const Console = forwardRef<Modalize, ConsoleProps>((props, ref) => {
           )}
         </ScrollView>
       </View>
-      <Space height={insets.bottom} />
     </ModalSheet>
   );
 });
