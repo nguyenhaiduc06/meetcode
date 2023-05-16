@@ -1,3 +1,4 @@
+import { STUDY_PLANS } from "./data";
 import {
   QUERY_QUESTION_LIST,
   QUERY_QUESTION_CODE_EDITOR,
@@ -158,6 +159,7 @@ class LeetCode {
   }
 
   async getStudyPlans() {
+    return STUDY_PLANS;
     const res = await service.GraphQLQuery({
       query: QUERY_STUDY_PLANS,
     });
