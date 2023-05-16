@@ -1,5 +1,5 @@
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { styled } from "styled-components/native";
 import { MainStackNavigatorProp, MainStackParamList } from "../../navigators";
@@ -7,9 +7,12 @@ import { leetCode } from "../../core/LeetCode";
 import RenderHTML, { defaultSystemFonts } from "react-native-render-html";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { palette } from "../../theme";
-import { Button, Text, Space, Chip, Icon } from "../../components";
+import { Button, Text, Space, Chip, Icon, ModalSheet } from "../../components";
 import { useTheme } from "../../hooks";
 import Helper from "../../utils/Helper";
+import { Modalize } from "react-native-modalize";
+import { HintsModal } from "./HintsModal";
+import { QuestionDescriptionData } from "../../core/types";
 
 const Container = styled.View`
   flex: 1;
@@ -42,7 +45,9 @@ export const QuestionDetailScreen = () => {
   const route = useRoute<RouteProp<MainStackParamList, "QuestionDetail">>();
   const theme = useTheme();
   const insets = useSafeAreaInsets();
-  const [content, setContent] = useState(null);
+  const hintsModal = useRef<Modalize>();
+  const [description, setDescription] = useState<QuestionDescriptionData>(null);
+  const { content, hints } = description ?? {};
   const { question } = route.params;
   const {
     title,
@@ -57,7 +62,7 @@ export const QuestionDetailScreen = () => {
   } = question;
 
   useEffect(() => {
-    leetCode.getQuestionContent(titleSlug).then(setContent);
+    leetCode.getQuestionDescription(titleSlug).then(setDescription);
   }, []);
 
   const openCodeEditor = () => {
@@ -107,7 +112,11 @@ export const QuestionDetailScreen = () => {
   return (
     <Container>
       <BottomRight style={{ bottom: insets.bottom }}>
-        <Button label="Hints" iconName="key-2-line" />
+        <Button
+          label="Hints"
+          iconName="key-2-line"
+          onPress={() => hintsModal?.current?.open()}
+        />
         <Button
           label="Solve"
           iconName="code-s-slash-line"
@@ -183,6 +192,8 @@ export const QuestionDetailScreen = () => {
           <Space height={insets.bottom + 64} />
         </ScrollViewContainer>
       </ScrollView>
+
+      <HintsModal ref={hintsModal} hints={hints} />
     </Container>
   );
 };

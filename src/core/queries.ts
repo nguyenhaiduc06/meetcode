@@ -35,6 +35,16 @@ export const QUERY_QUESTION_LIST = gql`
   }
 `;
 
+export const QUERY_QUESTION_DESCRIPTION = gql`
+  query questionDetail($titleSlug: String!) {
+    question(titleSlug: $titleSlug) {
+      questionId
+      content
+      hints
+    }
+  }
+`;
+
 export const QUERY_QUESTION_CONTENT = gql`
   query questionDetail($titleSlug: String!) {
     question(titleSlug: $titleSlug) {

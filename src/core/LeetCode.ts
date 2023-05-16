@@ -5,9 +5,14 @@ import {
   QUERY_DAILY_CHALLENGE_RECORDS,
   QUERY_DAILY_CHALLENGE_MEDAL,
   QUERY_QUESTION_CONTENT,
+  QUERY_QUESTION_DESCRIPTION,
 } from "./queries";
 import service from "./service";
-import { GetDailyChallengeRecordsOptions, GetQuestionsOptions } from "./types";
+import {
+  GetDailyChallengeRecordsOptions,
+  GetQuestionsOptions,
+  QuestionDescriptionData,
+} from "./types";
 
 class LeetCode {
   async getQuestionOfToday() {}
@@ -28,6 +33,16 @@ class LeetCode {
       },
     });
     return res.data.questionList.questions;
+  }
+
+  async getQuestionDescription(titleSlug): Promise<QuestionDescriptionData> {
+    const res = await service.GraphQLQuery({
+      query: QUERY_QUESTION_DESCRIPTION,
+      variables: {
+        titleSlug,
+      },
+    });
+    return res.data.question;
   }
 
   async getQuestionContent(titleSlug) {

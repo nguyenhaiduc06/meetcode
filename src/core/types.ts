@@ -44,7 +44,8 @@ export type QuestionMetadata = {
   stats: string;
 };
 
-export type QuestionDescriptionData = QuestionMetadata & {
+export type QuestionDescriptionData = {
+  questionId: string;
   content: string;
   hints: string[];
 };
