@@ -1,66 +1,55 @@
+// --- Options for LeetCode methods ---
+
 export type GetQuestionsOptions = {
   categorySlug?: string;
   skip?: number;
   limit?: 50;
   filters?: QuestionListFilterInput;
 };
+
 export type QuestionListFilterInput = {
-  difficulty?: Difficulty;
+  difficulty?: QuestionDifficulty;
   tags?: any[];
   searchKeywords?: string;
-  status?: Status;
+  status?: QuestionStatus;
 };
 
-export type Difficulty = "EASY" | "MEDIUM" | "HARD";
+// --- End Options for LeetCode methods ---
 
-export type Status = "AC" | "TRIED" | "NOT_STARTED";
+// --- Question ---
 
-export type TopicTag = {
+export type QuestionDifficulty = "EASY" | "MEDIUM" | "HARD";
+
+export type QuestionStatus = "ac" | "notac" | null;
+
+export type QuestionTopicTag = {
   name: string;
   slug: string;
 };
 
-export type Question = {
+export type QuestionMetadata = {
   questionId: string;
   acRate: number;
-  difficulty: Difficulty;
-  freqBar: any;
+  difficulty: QuestionDifficulty;
   likes: number;
   dislikes: number;
   frontendQuestionId: string;
   isLiked: boolean;
   isFavor: boolean;
   isPaidOnly: boolean;
-  status: string;
+  status: QuestionStatus;
   title: string;
   titleSlug: string;
-  topicTags: TopicTag[];
-  hasSolution: boolean;
-  hasVideoSolution: boolean;
+  topicTags: QuestionTopicTag[];
   stats: string;
-  content: string;
 };
 
-export type QuestionDescriptionData = {
-  questionId: string;
-  acRate: number;
-  difficulty: Difficulty;
-  freqBar: any;
-  likes: number;
-  dislikes: number;
-  frontendQuestionId: string;
-  isLiked: boolean;
-  isFavor: boolean;
-  isPaidOnly: boolean;
-  status: "ac" | "notac" | null;
-  title: string;
-  titleSlug: string;
-  topicTags: TopicTag[];
-  hasSolution: boolean;
-  hasVideoSolution: boolean;
-  stats: string;
+export type QuestionDescriptionData = QuestionMetadata & {
   content: string;
+  hints: string[];
 };
+
+// --- End Question ---
 
 // --- Code editor ---
 

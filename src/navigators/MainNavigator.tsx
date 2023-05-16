@@ -5,12 +5,13 @@ import {
 import { QuestionList, QuestionDetailScreen } from "../screens";
 import { CodeEditorScreen } from "../screens/CodeEditorScreen";
 import { BottomTabNavigator } from "./BottomTabNavigator";
+import { QuestionMetadata } from "../core/types";
 
 export type MainStackParamList = {
   BottomTab: undefined;
   QuestionList: undefined;
   QuestionDetail: {
-    titleSlug: string;
+    question: QuestionMetadata;
   };
   CodeEditor: {
     titleSlug: string;

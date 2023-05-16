@@ -18,11 +18,9 @@ export const QUERY_QUESTION_LIST = gql`
         questionId
         acRate
         difficulty
-        freqBar
         likes
         dislikes
         questionFrontendId
-        isFavor
         isPaidOnly
         status
         title
@@ -32,30 +30,16 @@ export const QUERY_QUESTION_LIST = gql`
           id
           slug
         }
-        hasSolution
-        hasVideoSolution
       }
     }
   }
 `;
 
-export const QUERY_QUESTION_DESCRIPTION = gql`
+export const QUERY_QUESTION_CONTENT = gql`
   query questionDetail($titleSlug: String!) {
     question(titleSlug: $titleSlug) {
       questionId
-      title
-      difficulty
-      likes
-      dislikes
-      isLiked
-      isPaidOnly
-      stats
-      status
       content
-      hints
-      topicTags {
-        name
-      }
     }
   }
 `;

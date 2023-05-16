@@ -53,9 +53,9 @@ export const QuestionList = () => {
     });
   }, [navigation]);
 
-  const viewProblemDetail = (titleSlug) => {
+  const viewProblemDetail = (question) => {
     navigation.navigate("QuestionDetail", {
-      titleSlug,
+      question,
     });
   };
   return (
@@ -77,11 +77,11 @@ export const QuestionList = () => {
         </TopicTagsContainer>
       </ScrollView>
       <ScrollView>
-        {questions.map(({ questionId, ...rest }) => (
+        {questions.map((question) => (
           <QuestionItem
-            key={questionId}
-            onPress={() => viewProblemDetail(rest.titleSlug)}
-            {...rest}
+            key={question.questionId}
+            onPress={() => viewProblemDetail(question)}
+            {...question}
           />
         ))}
       </ScrollView>

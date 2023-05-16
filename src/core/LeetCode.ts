@@ -1,10 +1,10 @@
 import {
   QUERY_QUESTION_LIST,
-  QUERY_QUESTION_DESCRIPTION,
   QUERY_QUESTION_CODE_EDITOR,
   QUERY_STUDY_PLANS,
   QUERY_DAILY_CHALLENGE_RECORDS,
   QUERY_DAILY_CHALLENGE_MEDAL,
+  QUERY_QUESTION_CONTENT,
 } from "./queries";
 import service from "./service";
 import { GetDailyChallengeRecordsOptions, GetQuestionsOptions } from "./types";
@@ -30,14 +30,14 @@ class LeetCode {
     return res.data.questionList.questions;
   }
 
-  async getQuestionDetail(titleSlug) {
+  async getQuestionContent(titleSlug) {
     const res = await service.GraphQLQuery({
-      query: QUERY_QUESTION_DESCRIPTION,
+      query: QUERY_QUESTION_CONTENT,
       variables: {
         titleSlug,
       },
     });
-    return res.data.question;
+    return res.data.question.content;
   }
 
   async getQuestionCodeEditor(titleSlug) {

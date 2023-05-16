@@ -10,7 +10,6 @@ import { palette } from "../../theme";
 import { Button, Text, Space, Chip, Icon } from "../../components";
 import { useTheme } from "../../hooks";
 import Helper from "../../utils/Helper";
-import { Question } from "../../core/types";
 
 const Container = styled.View`
   flex: 1;
@@ -39,28 +38,33 @@ const BottomRight = styled.View`
 `;
 
 export const QuestionDetailScreen = () => {
-  const [question, setQuestion] = useState<Question>(null);
   const navigation = useNavigation<MainStackNavigatorProp>();
-  const route = useRoute<RouteProp<MainStackParamList>>();
+  const route = useRoute<RouteProp<MainStackParamList, "QuestionDetail">>();
   const theme = useTheme();
   const insets = useSafeAreaInsets();
-  const { titleSlug } = route.params;
+  const [content, setContent] = useState(null);
+  const { question } = route.params;
+  const {
+    title,
+    titleSlug,
+    difficulty,
+    isLiked,
+    likes,
+    dislikes,
+    status,
+    topicTags,
+    acRate,
+  } = question;
+
   useEffect(() => {
-    leetCode.getQuestionDetail(titleSlug).then(setQuestion);
+    leetCode.getQuestionContent(titleSlug).then(setContent);
   }, []);
 
   const openCodeEditor = () => {
     navigation.navigate("CodeEditor", {
-      titleSlug,
+      titleSlug: question.titleSlug,
     });
   };
-
-  if (!question) {
-    return <View />;
-  }
-
-  const { title, difficulty, isLiked, likes, dislikes, content, status } =
-    question;
 
   const statusIconName =
     status == "ac"
@@ -103,7 +107,7 @@ export const QuestionDetailScreen = () => {
   return (
     <Container>
       <BottomRight style={{ bottom: insets.bottom }}>
-        <Button label="Solutions" iconName="key-2-line" />
+        <Button label="Hints" iconName="key-2-line" />
         <Button
           label="Solve"
           iconName="code-s-slash-line"
@@ -121,12 +125,31 @@ export const QuestionDetailScreen = () => {
               {title}
             </Text>
           </Row>
-          <Row gap={16} style={{ marginVertical: 8 }}>
+
+          <Space height={8} />
+
+          <Row gap={8}>
             <Chip label={difficulty} labelColor={difficultyLabelColor} />
+            {topicTags.map((tag) => (
+              <Chip
+                key={`tag-${tag.name}`}
+                label={tag.name}
+                labelColor={theme.colors.textDim}
+              />
+            ))}
+          </Row>
+
+          <Space height={12} />
+
+          <Row gap={8}>
+            <Row gap={4}>
+              <Text dim>Acceptance: </Text>
+              <Text>{acRate.toFixed(1)}%</Text>
+            </Row>
             <Row gap={4}>
               <Icon
-                name={isLiked ? "thumb-up-fill" : "thumb-up-line"}
-                size={16}
+                name="thumb-up-line"
+                size={14}
                 color={theme.colors.textDim}
               />
               <Text>{Helper.nFormatter(likes)}</Text>
@@ -134,23 +157,27 @@ export const QuestionDetailScreen = () => {
             <Row gap={4}>
               <Icon
                 name="thumb-down-line"
-                size={16}
+                size={14}
                 color={theme.colors.textDim}
               />
               <Text>{Helper.nFormatter(dislikes)}</Text>
             </Row>
-            <Icon name="star-line" size={16} color={theme.colors.text} />
           </Row>
-          <RenderHTML
-            baseStyle={baseStyle}
-            tagsStyles={tagsStyles}
-            contentWidth={200}
-            systemFonts={systemFonts}
-            enableCSSInlineProcessing={false}
-            source={{
-              html: content,
-            }}
-          />
+
+          <Space height={12} />
+
+          {content && (
+            <RenderHTML
+              baseStyle={baseStyle}
+              tagsStyles={tagsStyles}
+              contentWidth={200}
+              systemFonts={systemFonts}
+              enableCSSInlineProcessing={false}
+              source={{
+                html: content,
+              }}
+            />
+          )}
 
           {/* add 64 to height to avoid scroll view bottom content being covered by bottom buttons */}
           <Space height={insets.bottom + 64} />

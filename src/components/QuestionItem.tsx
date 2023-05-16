@@ -5,9 +5,9 @@ import { useTheme } from "../hooks";
 import Helper from "../utils/Helper";
 import { spacing } from "../theme";
 import { Space, Text, Chip, Icon } from ".";
-import { QuestionDescriptionData } from "../core/types";
+import { QuestionMetadata } from "../core/types";
 
-type QuestionItemProps = QuestionDescriptionData & TouchableOpacityProps & {};
+type QuestionItemProps = QuestionMetadata & TouchableOpacityProps & {};
 
 const Container = styled.TouchableOpacity`
   padding: 16px;
