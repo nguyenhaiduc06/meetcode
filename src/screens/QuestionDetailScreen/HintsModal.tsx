@@ -1,5 +1,11 @@
 import React, { forwardRef } from "react";
-import { ModalSheet, ModalSheetProps, Space, Text } from "../../components";
+import {
+  EmptyState,
+  ModalSheet,
+  ModalSheetProps,
+  Space,
+  Text,
+} from "../../components";
 import { Modalize } from "react-native-modalize";
 import { styled } from "styled-components/native";
 import { ScrollView } from "react-native";
@@ -17,15 +23,26 @@ export const HintsModal = forwardRef<Modalize, HintsModalProps>(
           Hints
         </Text>
         <Space height={16} />
-        <ScrollView>
-          {hints.map((hint, index) => (
-            <HintContainer key={`hint-${index}`}>
-              <Text size={17} style={{ lineHeight: 30 }}>
-                {hint}
-              </Text>
-            </HintContainer>
-          ))}
-        </ScrollView>
+        {hints && !!hints.length ? (
+          <ScrollView>
+            {hints.map((hint, index) => (
+              <HintContainer key={`hint-${index}`}>
+                <Text size={17} style={{ lineHeight: 30 }}>
+                  {hint}
+                </Text>
+              </HintContainer>
+            ))}
+          </ScrollView>
+        ) : (
+          <EmptyState
+            label="No hint"
+            iconName="inbox-line"
+            style={{
+              flex: 1,
+              marginBottom: 48, // add margin bottom to make component center "visually", otherwise, it will look closer to the bottom
+            }}
+          />
+        )}
       </ModalSheet>
     );
   }
