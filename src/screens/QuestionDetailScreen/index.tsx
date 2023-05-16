@@ -100,8 +100,8 @@ export const QuestionDetailScreen = () => {
     },
     pre: {
       backgroundColor: theme.colors.foreground,
-      borderRadius: 4,
-      paddingHorizontal: 12,
+      borderRadius: 8,
+      paddingHorizontal: 16,
       fontFamily: "IBMPlexMono_400Regular",
     },
     code: {

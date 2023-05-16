@@ -165,9 +165,21 @@ export const QUERY_DAILY_CHALLENGE_RECORDS = gql`
         userStatus
         link
         question {
+          questionId
+          acRate
+          difficulty
+          likes
+          dislikes
           questionFrontendId
+          isPaidOnly
+          status
           title
           titleSlug
+          topicTags {
+            name
+            id
+            slug
+          }
         }
       }
     }

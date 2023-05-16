@@ -51,11 +51,10 @@ export const SearchModal: FC<SearchModalProps> = (props) => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<MainStackNavigatorProp>();
 
-  const viewQuestionDetail = (titleSlug) => {
-    console.log("🚀 ~ titleSlug:", titleSlug);
+  const viewQuestionDetail = (question) => {
     dismiss();
     navigation.navigate("QuestionDetail", {
-      titleSlug,
+      question,
     });
   };
   const search = () => {
@@ -88,7 +87,7 @@ export const SearchModal: FC<SearchModalProps> = (props) => {
           {questions.map((question) => (
             <QuestionItem
               key={question.questionId}
-              onPress={() => viewQuestionDetail(question.titleSlug)}
+              onPress={() => viewQuestionDetail(question)}
               {...question}
             />
           ))}

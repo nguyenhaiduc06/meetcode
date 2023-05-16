@@ -64,12 +64,12 @@ export const DailyChallengeRecords: FC<DailyChallengeRecordsProps> = (
     leetCode.getDailyChallengeMedal().then(setMedal);
   }, []);
 
-  const viewQuestionDetail = (titleSlug) => {
-    if (!titleSlug) {
+  const viewQuestionDetail = (question) => {
+    if (!question) {
       return;
     }
     navigation.navigate("QuestionDetail", {
-      titleSlug,
+      question,
     });
   };
 
@@ -105,7 +105,7 @@ export const DailyChallengeRecords: FC<DailyChallengeRecordsProps> = (
               date={date}
               record={record}
               disabled={!record}
-              onPress={() => viewQuestionDetail(record?.question.titleSlug)}
+              onPress={() => viewQuestionDetail(record?.question)}
             />
           ))}
         </BodyRow>
