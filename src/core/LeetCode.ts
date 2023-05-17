@@ -7,6 +7,10 @@ import {
   QUERY_DAILY_CHALLENGE_MEDAL,
   QUERY_QUESTION_CONTENT,
   QUERY_QUESTION_DESCRIPTION,
+  QUERY_USER_PROBLEMS_SOLVED,
+  QUERY_USER_PUBLIC_PROFILE,
+  QUERY_USER_LANGUAGE_STATS,
+  QUERY_USER_SKILL_STATS,
 } from "./queries";
 import service from "./service";
 import {
@@ -15,8 +19,10 @@ import {
   CodeSubmitResult,
   GetDailyChallengeRecordsOptions,
   GetQuestionsOptions,
+  ProblemsSolved,
   QuestionDescriptionData,
   QuestionMetadata,
+  UserProfile,
 } from "./types";
 
 class LeetCode {
@@ -192,6 +198,60 @@ class LeetCode {
       },
     });
     return res.data.dailyChallengeMedal;
+  }
+
+  async getUserProfile(): Promise<UserProfile> {
+    const res = await service.GraphQLQuery({
+      query: QUERY_USER_PUBLIC_PROFILE,
+      variables: {
+        username: "haiduc06",
+      },
+    });
+    return res.data.matchedUser;
+  }
+
+  async getUserProblemsSolved(): Promise<ProblemsSolved> {
+    const res = await service.GraphQLQuery({
+      query: QUERY_USER_PROBLEMS_SOLVED,
+      variables: {
+        username: "haiduc06",
+      },
+    });
+    const { allQuestionsCount, matchedUser } = res.data;
+    const { acSubmissionNum } = matchedUser.submitStatsGlobal;
+    const problemsSolved: ProblemsSolved = {
+      all: { solvedCount: 0, totalCount: 0 },
+      easy: { solvedCount: 0, totalCount: 0 },
+      medium: { solvedCount: 0, totalCount: 0 },
+      hard: { solvedCount: 0, totalCount: 0 },
+    };
+    for (const { difficulty, count } of acSubmissionNum) {
+      problemsSolved[difficulty.toLowerCase()].solvedCount = count;
+    }
+    for (const { difficulty, count } of allQuestionsCount) {
+      problemsSolved[difficulty.toLowerCase()].totalCount = count;
+    }
+    return problemsSolved;
+  }
+
+  async getUserLanguageStats() {
+    const res = await service.GraphQLQuery({
+      query: QUERY_USER_LANGUAGE_STATS,
+      variables: {
+        username: "haiduc06",
+      },
+    });
+    return res.data.matchedUser.languageProblemCount;
+  }
+
+  async getUserSkillStats() {
+    const res = await service.GraphQLQuery({
+      query: QUERY_USER_SKILL_STATS,
+      variables: {
+        username: "haiduc06",
+      },
+    });
+    return res.data.matchedUser.tagProblemCounts;
   }
 }
 

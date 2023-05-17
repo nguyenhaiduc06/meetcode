@@ -158,3 +158,51 @@ export type GetDailyChallengeRecordsOptions = {
 };
 
 // --- End Daily Challenge Records ---
+
+// --- Profile ---
+
+export type UserProfile = {
+  username: string;
+  githubUrl: string;
+  twitterUrl: string;
+  linkedinUrl: string;
+  profile: {
+    ranking: number;
+    userAvatar: string;
+    realName: string;
+    aboutMe: string;
+    school: string;
+    websites: string;
+    countryName: string;
+    company: string;
+    jobTitle: string;
+    skillTags: string[];
+    postViewCount: number;
+    postViewCountDiff: number;
+    reputation: number;
+    reputationDiff: number;
+    solutionCount: number;
+    solutionCountDiff: number;
+    categoryDiscussCount: number;
+    categoryDiscussCountDiff: number;
+  };
+};
+export type ProblemsSolved = {
+  all: {
+    solvedCount: number;
+    totalCount: number;
+  };
+  easy: {
+    solvedCount: number;
+    totalCount: number;
+  };
+  medium: {
+    solvedCount: number;
+    totalCount: number;
+  };
+  hard: {
+    solvedCount: number;
+    totalCount: number;
+  };
+};
+// --- End Profile

@@ -196,3 +196,96 @@ export const QUERY_DAILY_CHALLENGE_MEDAL = gql`
     }
   }
 `;
+
+export const QUERY_USER_PUBLIC_PROFILE = gql`
+  query userPublicProfile($username: String!) {
+    matchedUser(username: $username) {
+      contestBadge {
+        name
+        expired
+        hoverText
+        icon
+      }
+      username
+      githubUrl
+      twitterUrl
+      linkedinUrl
+      profile {
+        ranking
+        userAvatar
+        realName
+        aboutMe
+        school
+        websites
+        countryName
+        company
+        jobTitle
+        skillTags
+        postViewCount
+        postViewCountDiff
+        reputation
+        reputationDiff
+        solutionCount
+        solutionCountDiff
+        categoryDiscussCount
+        categoryDiscussCountDiff
+      }
+    }
+  }
+`;
+
+export const QUERY_USER_PROBLEMS_SOLVED = gql`
+  query userProblemsSolved($username: String!) {
+    allQuestionsCount {
+      difficulty
+      count
+    }
+    matchedUser(username: $username) {
+      problemsSolvedBeatsStats {
+        difficulty
+        percentage
+      }
+      submitStatsGlobal {
+        acSubmissionNum {
+          difficulty
+          count
+        }
+      }
+    }
+  }
+`;
+
+export const QUERY_USER_LANGUAGE_STATS = gql`
+  query languageStats($username: String!) {
+    matchedUser(username: $username) {
+      languageProblemCount {
+        languageName
+        problemsSolved
+      }
+    }
+  }
+`;
+
+export const QUERY_USER_SKILL_STATS = gql`
+  query skillStats($username: String!) {
+    matchedUser(username: $username) {
+      tagProblemCounts {
+        advanced {
+          tagName
+          tagSlug
+          problemsSolved
+        }
+        intermediate {
+          tagName
+          tagSlug
+          problemsSolved
+        }
+        fundamental {
+          tagName
+          tagSlug
+          problemsSolved
+        }
+      }
+    }
+  }
+`;
