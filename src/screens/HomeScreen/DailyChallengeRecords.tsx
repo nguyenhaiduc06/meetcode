@@ -92,16 +92,17 @@ export const DailyChallengeRecords: FC<DailyChallengeRecordsProps> = (
 
       <HeadRow>
         {weekDays.map((weekDays, index) => (
-          <HeadCell>
+          <HeadCell key={`head-cell-${index}`}>
             <Text dim>{weekDays}</Text>
           </HeadCell>
         ))}
       </HeadRow>
 
       {weeks.map((week, index) => (
-        <BodyRow>
+        <BodyRow key={`body-row-${index}`}>
           {week.map(({ date, record }, index) => (
             <RecordCell
+              key={`record-cel-${index}`}
               date={date}
               record={record}
               disabled={!record}
