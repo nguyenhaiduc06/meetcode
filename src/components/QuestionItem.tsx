@@ -4,7 +4,10 @@ import { styled } from "styled-components/native";
 import { useTheme } from "../hooks";
 import Helper from "../utils/Helper";
 import { spacing } from "../theme";
-import { Space, Text, Chip, Icon } from ".";
+import { Space } from "./Space";
+import { Text } from "./Text";
+import { Chip } from "./Chip";
+import { Icon } from "./Icon";
 import { QuestionMetadata } from "../core/types";
 
 type QuestionItemProps = QuestionMetadata & TouchableOpacityProps & {};
