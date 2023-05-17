@@ -14,7 +14,7 @@ const Container = styled.View`
 `;
 
 export const Header = (props) => {
-  const { onSubmit, onRun } = props;
+  const { selectedLanguage, onSubmit, onRun, openSelectSnippet } = props;
   const theme = useTheme();
   const navigation = useNavigation<MainStackNavigatorProp>();
 
@@ -26,8 +26,12 @@ export const Header = (props) => {
     <Container>
       <Button iconName="close-line" size="sm" onPress={goBack} />
 
-      <Button size="sm" backgroundColor="transparent">
-        <Text>Python</Text>
+      <Button
+        size="sm"
+        backgroundColor="transparent"
+        onPress={openSelectSnippet}
+      >
+        <Text>{selectedLanguage}</Text>
         <Icon name="arrow-down-s-fill" size={16} color={theme.colors.text} />
       </Button>
 

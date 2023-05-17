@@ -4,8 +4,7 @@ import { leetCode } from "../../core/LeetCode";
 import { useNavigation } from "@react-navigation/native";
 import { MainStackNavigatorProp } from "../../navigators";
 import { Button, Text, QuestionItem } from "../../components";
-import { Difficulty } from "../../core/types";
-import { SearchModal } from "./SearchModal";
+import { QuestionDifficulty } from "../../core/types";
 
 const Container = styled.View`
   flex: 1;
@@ -23,7 +22,7 @@ const TopicTagsContainer = styled.View`
 const ScrollView = styled.ScrollView``;
 
 export const QuestionList = () => {
-  const [difficulty, setDifficulty] = useState<Difficulty>("EASY");
+  const [difficulty, setDifficulty] = useState<QuestionDifficulty>("EASY");
   const [showSearch, setShowSearch] = useState(false);
   const [questions, setQuestions] = useState([]);
   const navigation = useNavigation<MainStackNavigatorProp>();
@@ -85,12 +84,12 @@ export const QuestionList = () => {
           />
         ))}
       </ScrollView>
-      <SearchModal
+      {/* <SearchModal
         visible={showSearch}
         animationType="fade"
         transparent
         dismiss={closeSearch}
-      />
+      /> */}
     </Container>
   );
 };

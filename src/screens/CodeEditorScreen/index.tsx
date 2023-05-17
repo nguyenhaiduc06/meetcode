@@ -20,6 +20,7 @@ import {
 } from "../../core/types";
 import { Modalize } from "react-native-modalize";
 import { SubmitResult } from "./SubmitResult";
+import { SelectCodeSnippet } from "./SelectCodeSnippet";
 
 const Row = styled.View`
   flex-direction: row;
@@ -46,6 +47,9 @@ const MonoText = styled(Text)`
 
 export const CodeEditorScreen = () => {
   const [codeEditorData, setCodeEditorData] = useState<CodeEditorData>(null);
+  const [currentSnippetIndex, setCurrentSnippetIndex] = useState(0);
+  const [typedCode, setTypedCode] = useState("");
+
   const [codeInterpretResult, setCodeInterpretResult] =
     useState<CodeInterpretResult>(null);
   const [codeInterpretPending, setCodeInterpretPending] = useState(false);
@@ -54,11 +58,9 @@ export const CodeEditorScreen = () => {
     useState<CodeSubmitResult>(null);
   const [codeSubmitPending, setCodeSubmitPending] = useState(false);
 
-  const [typedCode, setTypedCode] = useState("");
-
   const consoleModal = useRef<Modalize>(null);
   const submitResultModal = useRef<Modalize>(null);
-  const [showConsole, setShowConsole] = useState<boolean>(false);
+  const selectSnippetModal = useRef<Modalize>(null);
 
   const theme = useTheme();
   const navigation = useNavigation<MainStackNavigatorProp>();
@@ -89,10 +91,10 @@ export const CodeEditorScreen = () => {
   }
 
   const { exampleTestcaseList, codeSnippets } = codeEditorData;
-  const codeSnippet = codeSnippets.find(
-    (snippet) => snippet.langSlug == "python"
-  );
-  const initialCode = codeSnippet?.code ?? "";
+  const selectedSnippet = codeSnippets.length
+    ? codeSnippets[currentSnippetIndex]
+    : null;
+  const initialCode = selectedSnippet?.code ?? "";
 
   const run = () => {
     Keyboard.dismiss();
@@ -105,7 +107,7 @@ export const CodeEditorScreen = () => {
         titleSlug,
         data_input: exampleTestcaseList.join("\n"),
         question_id: questionId,
-        lang: "python3",
+        lang: selectedSnippet.langSlug,
         typed_code: typedCode,
       })
       .then(setCodeInterpretResult)
@@ -135,7 +137,13 @@ export const CodeEditorScreen = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Header onSubmit={submit} onRun={run} />
+      <Header
+        selectedLanguage={selectedSnippet?.lang}
+        onSubmit={submit}
+        onRun={run}
+        openSelectSnippet={() => openModal(selectSnippetModal)}
+      />
+
       <TextInput
         defaultValue={initialCode}
         style={{
@@ -150,6 +158,7 @@ export const CodeEditorScreen = () => {
         textAlignVertical="top"
         onScroll={() => console.log("scrolling")}
       />
+
       <Animated.View style={translatedStyle}>
         <Button
           iconName="terminal-box-line"
@@ -210,16 +219,6 @@ export const CodeEditorScreen = () => {
 
       <Console
         ref={consoleModal}
-        onOpen={() => {
-          navigation.setOptions({
-            gestureEnabled: false,
-          });
-        }}
-        onClosed={() => {
-          navigation.setOptions({
-            gestureEnabled: true,
-          });
-        }}
         pending={codeInterpretPending}
         result={codeInterpretResult}
         testCases={exampleTestcaseList}
@@ -227,18 +226,15 @@ export const CodeEditorScreen = () => {
 
       <SubmitResult
         ref={submitResultModal}
-        onOpen={() => {
-          navigation.setOptions({
-            gestureEnabled: false,
-          });
-        }}
-        onClosed={() => {
-          navigation.setOptions({
-            gestureEnabled: true,
-          });
-        }}
         pending={codeSubmitPending}
         result={codeSubmitResult}
+      />
+
+      <SelectCodeSnippet
+        ref={selectSnippetModal}
+        codeSnippets={codeSnippets}
+        selectedIndex={currentSnippetIndex}
+        onSnippetSelected={setCurrentSnippetIndex}
       />
     </View>
   );
