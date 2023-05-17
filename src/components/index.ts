@@ -7,3 +7,4 @@ export * from "./Text";
 export * from "./StudyPlanItem";
 export * from "./ModalSheet";
 export * from "./EmptyState";
+export * from "./ProgressBar";
