@@ -1,42 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components/native";
 import { leetCode } from "../../core/LeetCode";
 import { useNavigation } from "@react-navigation/native";
 import { MainStackNavigatorProp } from "../../navigators";
-import { Button, Text, QuestionItem } from "../../components";
-import { QuestionDifficulty } from "../../core/types";
-
-const Container = styled.View`
-  flex: 1;
-  background-color: ${(p) => p.theme.colors.background};
-  justify-content: center;
-`;
-
-const TopicTagsContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  padding: 16px;
-  gap: 8px;
-`;
-
-const ScrollView = styled.ScrollView``;
+import { Button, QuestionItem } from "../../components";
+import { SearchModal } from "./SearchModal";
+import { Filters } from "./Filters";
+import { InteractionManager } from "react-native";
 
 export const QuestionList = () => {
-  const [difficulty, setDifficulty] = useState<QuestionDifficulty>("EASY");
-  const [showSearch, setShowSearch] = useState(false);
   const [questions, setQuestions] = useState([]);
+  console.log("🚀 ~ questions:", questions);
   const navigation = useNavigation<MainStackNavigatorProp>();
 
-  const openSearch = () => {
-    setShowSearch(true);
-  };
-
-  const closeSearch = () => {
-    setShowSearch(false);
-  };
+  const searchModal = useRef(null);
 
   useEffect(() => {
-    leetCode.getQuestions().then(setQuestions);
+    InteractionManager.runAfterInteractions(() =>
+      leetCode.getQuestions().then(setQuestions)
+    );
   }, []);
 
   useEffect(() => {
@@ -46,7 +28,7 @@ export const QuestionList = () => {
           iconName="search-line"
           borderColor="transparent"
           backgroundColor="transparent"
-          onPress={openSearch}
+          onPress={searchModal.current?.show}
         />
       ),
     });
@@ -57,24 +39,13 @@ export const QuestionList = () => {
       question,
     });
   };
+
+  const handleFiltersChanged = (newFilters) => {
+    leetCode.getQuestions({ filters: newFilters }).then(setQuestions);
+  };
   return (
     <Container>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={{ flexGrow: 0 }}
-      >
-        <TopicTagsContainer>
-          <Button size="sm" label={difficulty ?? "Difficulty"} />
-          <Button size="sm" label="Status" />
-          <Button size="sm">
-            <Text size={13} dim>
-              0
-            </Text>
-            <Text size={13}>Tags</Text>
-          </Button>
-        </TopicTagsContainer>
-      </ScrollView>
+      <Filters onFiltersChanged={handleFiltersChanged} />
       <ScrollView>
         {questions.map((question) => (
           <QuestionItem
@@ -84,12 +55,15 @@ export const QuestionList = () => {
           />
         ))}
       </ScrollView>
-      {/* <SearchModal
-        visible={showSearch}
-        animationType="fade"
-        transparent
-        dismiss={closeSearch}
-      /> */}
+      <SearchModal animationType="fade" ref={searchModal} />
     </Container>
   );
 };
+
+const Container = styled.View`
+  flex: 1;
+  background-color: ${(p) => p.theme.colors.background};
+  justify-content: center;
+`;
+
+const ScrollView = styled.ScrollView``;

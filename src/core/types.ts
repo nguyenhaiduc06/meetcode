@@ -8,11 +8,15 @@ export type GetQuestionsOptions = {
 };
 
 export type QuestionListFilterInput = {
-  difficulty?: QuestionDifficulty;
+  difficulty?: QuestionDifficultyFilter;
   tags?: any[];
   searchKeywords?: string;
-  status?: QuestionStatus;
+  status?: QuestionStatusFilter;
 };
+
+export type QuestionDifficultyFilter = "EASY" | "MEDIUM" | "HARD";
+
+export type QuestionStatusFilter = "NOT_STARTED" | "AC" | "TRIED";
 
 // --- End Options for LeetCode methods ---
 

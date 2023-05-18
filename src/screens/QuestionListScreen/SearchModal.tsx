@@ -1,21 +1,19 @@
-import React, { FC, useRef, useState } from "react";
+import React, {
+  FC,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { styled } from "styled-components/native";
 import { QuestionItem, Space, Text } from "../../components";
-import {
-  Modal,
-  ModalProps,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { Modal, ModalProps, ScrollView, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { leetCode } from "../../core/LeetCode";
 import { useNavigation } from "@react-navigation/native";
 import { MainStackNavigatorProp } from "../../navigators";
 
-type SearchModalProps = ModalProps & {
-  dismiss: () => void;
-};
+type SearchModalProps = ModalProps & {};
 
 const Container = styled.View`
   flex: 1;
@@ -39,20 +37,39 @@ const SearchInput = styled.TextInput`
   font-size: 15px;
   color: ${(p) => p.theme.colors.text};
   padding: 8px 12px;
-  border-radius: 50%;
+  border-radius: 999px;
   border-width: 1px;
   border-color: ${(p) => p.theme.colors.border};
+  background-color: ${(p) => p.theme.colors.foreground};
 `;
 
-export const SearchModal: FC<SearchModalProps> = (props) => {
-  const { dismiss, ...rest } = props;
+export const SearchModal = forwardRef<any, SearchModalProps>((props, ref) => {
+  const { ...rest } = props;
+  const [visible, setVisible] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [searchKeywords, setSearchKeywords] = useState("");
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<MainStackNavigatorProp>();
 
+  useImperativeHandle(
+    ref,
+    () => ({
+      show,
+      hide,
+    }),
+    []
+  );
+
+  const show = () => {
+    setVisible(true);
+  };
+
+  const hide = () => {
+    setVisible(false);
+  };
+
   const viewQuestionDetail = (question) => {
-    dismiss();
+    hide();
     navigation.navigate("QuestionDetail", {
       question,
     });
@@ -67,7 +84,7 @@ export const SearchModal: FC<SearchModalProps> = (props) => {
       .then(setQuestions);
   };
   return (
-    <Modal {...rest}>
+    <Modal visible={visible} {...rest}>
       <Container>
         <Space height={insets.top} />
         <SearchRow>
@@ -79,7 +96,7 @@ export const SearchModal: FC<SearchModalProps> = (props) => {
             autoFocus
             onChangeText={setSearchKeywords}
           />
-          <TouchableOpacity onPress={dismiss}>
+          <TouchableOpacity onPress={hide}>
             <Text>Cancel</Text>
           </TouchableOpacity>
         </SearchRow>
@@ -95,4 +112,4 @@ export const SearchModal: FC<SearchModalProps> = (props) => {
       </Container>
     </Modal>
   );
-};
+});
