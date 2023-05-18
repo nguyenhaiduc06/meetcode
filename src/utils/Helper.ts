@@ -1,4 +1,13 @@
 import { palette } from "../theme";
+const braces = new Map<string, string>([
+  ["{", "}"],
+  ["(", ")"],
+  ["[", "]"],
+  ["<", ">"],
+  ['"', '"'],
+  ["'", "'"],
+  ["`", "`"],
+]);
 
 class Helper {
   static getColorByDifficulty(difficulty: string) {
@@ -31,6 +40,26 @@ class Helper {
       ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
       : "0";
   }
+
+  static insertStringAt(
+    str: string,
+    position: number,
+    strToInsert: string
+  ): string {
+    const res =
+      str.substring(0, position + 1) +
+      strToInsert +
+      str.substring(position + 1);
+    return res;
+  }
+
+  static isOpenBrace(str: string): boolean {
+    return braces.has(str);
+  }
+
+  static getCloseBrace = (str: string): string => {
+    return braces.get(str) || "";
+  };
 }
 
 export default Helper;

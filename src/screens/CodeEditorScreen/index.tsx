@@ -21,6 +21,7 @@ import {
 import { Modalize } from "react-native-modalize";
 import { SubmitResult } from "./SubmitResult";
 import { SelectCodeSnippet } from "./SelectCodeSnippet";
+import { CodeEditor } from "./CodeEditor";
 
 const Row = styled.View`
   flex-direction: row;
@@ -48,7 +49,6 @@ const MonoText = styled(Text)`
 export const CodeEditorScreen = () => {
   const [codeEditorData, setCodeEditorData] = useState<CodeEditorData>(null);
   const [currentSnippetIndex, setCurrentSnippetIndex] = useState(0);
-  const [typedCode, setTypedCode] = useState("");
 
   const [codeInterpretResult, setCodeInterpretResult] =
     useState<CodeInterpretResult>(null);
@@ -58,6 +58,7 @@ export const CodeEditorScreen = () => {
     useState<CodeSubmitResult>(null);
   const [codeSubmitPending, setCodeSubmitPending] = useState(false);
 
+  const codeEditor = useRef(null);
   const consoleModal = useRef<Modalize>(null);
   const submitResultModal = useRef<Modalize>(null);
   const selectSnippetModal = useRef<Modalize>(null);
@@ -108,7 +109,7 @@ export const CodeEditorScreen = () => {
         data_input: exampleTestcaseList.join("\n"),
         question_id: questionId,
         lang: selectedSnippet.langSlug,
-        typed_code: typedCode,
+        typed_code: codeEditor.current.value,
       })
       .then(setCodeInterpretResult)
       .finally(() => setCodeInterpretPending(false));
@@ -144,78 +145,7 @@ export const CodeEditorScreen = () => {
         openSelectSnippet={() => openModal(selectSnippetModal)}
       />
 
-      <TextInput
-        defaultValue={initialCode}
-        style={{
-          flex: 1,
-          color: theme.colors.text,
-          paddingHorizontal: 16,
-          fontSize: 16,
-          fontFamily: "IBMPlexMono_400Regular",
-        }}
-        multiline
-        onChangeText={setTypedCode}
-        textAlignVertical="top"
-        onScroll={() => console.log("scrolling")}
-      />
-
-      <Animated.View style={translatedStyle}>
-        <Button
-          iconName="terminal-box-line"
-          label="Console"
-          size="sm"
-          onPress={() => openModal(consoleModal)}
-          style={{ alignSelf: "flex-start", margin: 8 }}
-        />
-        <Row>
-          <ScrollView
-            horizontal
-            keyboardDismissMode="none"
-            keyboardShouldPersistTaps="always"
-          >
-            <ToolbarContainer>
-              <ToolbarButton>
-                <Icon
-                  name="indent-decrease"
-                  size={16}
-                  color={theme.colors.text}
-                />
-              </ToolbarButton>
-              <ToolbarButton>
-                <Icon
-                  name="indent-increase"
-                  size={16}
-                  color={theme.colors.text}
-                />
-              </ToolbarButton>
-              {["(", "[", "{", ":", ";", "'", '"'].map((char) => (
-                <ToolbarButton
-                  key={char}
-                  onLongPress={() => {
-                    console.log("opening submenu");
-                  }}
-                >
-                  <MonoText>{char}</MonoText>
-                </ToolbarButton>
-              ))}
-            </ToolbarContainer>
-          </ScrollView>
-          <View
-            style={{
-              borderRightWidth: 1,
-              borderRightColor: theme.colors.border,
-              height: 24,
-            }}
-          />
-          <ToolbarButton onPress={Keyboard.dismiss}>
-            <Icon
-              name="keyboard-box-line"
-              size={16}
-              color={theme.colors.text}
-            />
-          </ToolbarButton>
-        </Row>
-      </Animated.View>
+      <CodeEditor ref={codeEditor} codeSnippet={selectedSnippet} />
 
       <Console
         ref={consoleModal}
