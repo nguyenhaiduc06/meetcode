@@ -107,6 +107,7 @@ export const ProfileScreen = () => {
             <ChipsContainer>
               {languageStats.map((stat) => (
                 <SolvedProblemsChip
+                  key={`solved-problems-chip-${stat.languageName}`}
                   label={stat.languageName}
                   count={stat.problemsSolved}
                 />
@@ -122,18 +123,21 @@ export const ProfileScreen = () => {
             <ChipsContainer>
               {intermediate.map((stat) => (
                 <SolvedProblemsChip
+                  key={`solved-problems-chip-${stat.tagName}`}
                   label={stat.tagName}
                   count={stat.problemsSolved}
                 />
               ))}
               {fundamental.map((stat) => (
                 <SolvedProblemsChip
+                  key={`solved-problems-chip-${stat.tagName}`}
                   label={stat.tagName}
                   count={stat.problemsSolved}
                 />
               ))}
               {advanced.map((stat) => (
                 <SolvedProblemsChip
+                  key={`solved-problems-chip-${stat.tagName}`}
                   label={stat.tagName}
                   count={stat.problemsSolved}
                 />
