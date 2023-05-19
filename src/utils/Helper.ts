@@ -1,3 +1,4 @@
+import { QuestionDifficultyFilter, QuestionStatusFilter } from "../core/types";
 import { palette } from "../theme";
 const braces = new Map<string, string>([
   ["{", "}"],
@@ -8,6 +9,18 @@ const braces = new Map<string, string>([
   ["'", "'"],
   ["`", "`"],
 ]);
+
+const difficultyLabelByValue: { [key in QuestionDifficultyFilter]: string } = {
+  EASY: "Easy",
+  MEDIUM: "Medium",
+  HARD: "Hard",
+};
+
+const statusLabelByValue: { [key in QuestionStatusFilter]: string } = {
+  AC: "Solved",
+  TRIED: "Attempted",
+  NOT_STARTED: "Todo",
+};
 
 class Helper {
   static getColorByDifficulty(difficulty: string) {
@@ -60,6 +73,20 @@ class Helper {
   static getCloseBrace = (str: string): string => {
     return braces.get(str) || "";
   };
+
+  static getDifficultyLabelByValue(difficulty: QuestionDifficultyFilter) {
+    if (difficulty in difficultyLabelByValue) {
+      return difficultyLabelByValue[difficulty];
+    }
+    return null;
+  }
+
+  static getStatusLabelByValue(status: QuestionStatusFilter) {
+    if (status in statusLabelByValue) {
+      return statusLabelByValue[status];
+    }
+    return null;
+  }
 }
 
 export default Helper;

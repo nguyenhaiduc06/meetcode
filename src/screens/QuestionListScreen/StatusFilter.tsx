@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { ModalSheet, ModalSheetProps, Space, Text } from "../../components";
 import { Modalize } from "react-native-modalize";
 import { styled } from "styled-components/native";
@@ -10,11 +10,17 @@ type StatusFilterProps = ModalSheetProps & {
 
 export const StatusFilter = forwardRef<Modalize, StatusFilterProps>(
   (props, ref) => {
+    const [value, setValue] = useState<QuestionStatusFilter>();
     const { onStatusSelected, ...rest } = props;
+
+    useEffect(() => {
+      onStatusSelected(value);
+    }, [value]);
+
     const selectStatus = (status: QuestionStatusFilter) => {
+      setValue(status);
       // @ts-ignore
       ref.current.close();
-      onStatusSelected(status);
     };
     return (
       <ModalSheet ref={ref} {...rest}>
@@ -23,14 +29,23 @@ export const StatusFilter = forwardRef<Modalize, StatusFilterProps>(
         </Text>
         <Space height={16} />
         <OptionsContainer>
-          <DifficultyOption onPress={() => selectStatus("NOT_STARTED")}>
-            <Text>Todo</Text>
+          <DifficultyOption
+            selected={value == "NOT_STARTED"}
+            onPress={() => selectStatus("NOT_STARTED")}
+          >
+            <Text dim={value != "NOT_STARTED"}>Todo</Text>
           </DifficultyOption>
-          <DifficultyOption onPress={() => selectStatus("AC")}>
-            <Text>Solved</Text>
+          <DifficultyOption
+            selected={value == "AC"}
+            onPress={() => selectStatus("AC")}
+          >
+            <Text dim={value != "AC"}>Solved</Text>
           </DifficultyOption>
-          <DifficultyOption onPress={() => selectStatus("TRIED")}>
-            <Text>Attempted</Text>
+          <DifficultyOption
+            selected={value == "TRIED"}
+            onPress={() => selectStatus("TRIED")}
+          >
+            <Text dim={value != "TRIED"}>Attempted</Text>
           </DifficultyOption>
         </OptionsContainer>
       </ModalSheet>
@@ -49,4 +64,7 @@ const DifficultyOption = styled.TouchableOpacity<{ selected?: boolean }>`
   padding: 16px;
   border-radius: 8px;
   background-color: ${(p) => p.theme.colors.foreground};
+  border: 1px solid
+    ${({ selected, theme }) =>
+      selected ? theme.colors.text : theme.colors.foreground};
 `;

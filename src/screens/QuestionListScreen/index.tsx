@@ -6,20 +6,14 @@ import { MainStackNavigatorProp } from "../../navigators";
 import { Button, QuestionItem } from "../../components";
 import { SearchModal } from "./SearchModal";
 import { Filters } from "./Filters";
-import { InteractionManager } from "react-native";
+import { LoadingModal } from "./LoadingModal";
 
 export const QuestionList = () => {
   const [questions, setQuestions] = useState([]);
-  console.log("🚀 ~ questions:", questions);
   const navigation = useNavigation<MainStackNavigatorProp>();
 
   const searchModal = useRef(null);
-
-  useEffect(() => {
-    InteractionManager.runAfterInteractions(() =>
-      leetCode.getQuestions().then(setQuestions)
-    );
-  }, []);
+  const loadingModal = useRef(null);
 
   useEffect(() => {
     navigation.setOptions({
@@ -56,6 +50,7 @@ export const QuestionList = () => {
         ))}
       </ScrollView>
       <SearchModal animationType="fade" ref={searchModal} />
+      <LoadingModal animationType="fade" ref={loadingModal} />
     </Container>
   );
 };
