@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { styled } from "styled-components/native";
-import { Icon, Text } from ".";
+import { Icon } from "./Icon";
+import { Text } from "./Text";
 import { useTheme } from "../hooks";
 import { ViewProps } from "react-native";
 

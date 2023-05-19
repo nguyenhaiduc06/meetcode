@@ -55,8 +55,8 @@ export const HomeScreen = () => {
           style={{ flexGrow: 0 }}
         >
           <StudyPlansContainer>
-            {studyPlans.map((plan) => (
-              <StudyPlanItem {...plan} />
+            {studyPlans.map((plan, index) => (
+              <StudyPlanItem key={`study-plan-${index}`} {...plan} />
             ))}
           </StudyPlansContainer>
         </ScrollView>
