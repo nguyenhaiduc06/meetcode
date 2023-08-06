@@ -37,6 +37,7 @@ export const BottomTabNavigator = () => {
         name="QuestionList"
         component={QuestionList}
         options={{
+          title: "Problems",
           tabBarIcon: ({ color, focused }) => {
             return (
               <Icon
